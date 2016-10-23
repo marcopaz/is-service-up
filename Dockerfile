@@ -1,5 +1,13 @@
 FROM python:3.5
-ADD . /code
-WORKDIR /code
+
+ENV INSTALL_PATH /isserviceup
+RUN mkdir -p $INSTALL_PATH
+
+WORKDIR $INSTALL_PATH
+
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-CMD python isserviceup/app.py
+
+COPY . .
+
+CMD gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app
