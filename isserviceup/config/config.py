@@ -10,6 +10,7 @@ from isserviceup.services.github import GitHub
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
+GA_CODE = config('GA_CODE', default='UA-86164785-1')
 
 
 SERVICES = [
