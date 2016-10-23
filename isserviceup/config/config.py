@@ -6,6 +6,7 @@ from isserviceup.services.heroku import Heroku
 from isserviceup.services.pingdom import Pingdom
 from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
+from isserviceup.services.github import GitHub
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 REDIS_URL = config('REDIS_URL', default='redis://localhost')
@@ -14,6 +15,7 @@ REDIS_URL = config('REDIS_URL', default='redis://localhost')
 SERVICES = [
     AWS(),
     GCloud(),
+    GitHub(),
     Heroku(),
     RedisLabs(),
     Compose(),
