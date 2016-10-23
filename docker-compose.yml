@@ -11,9 +11,9 @@ services:
 
   redis:
     image: redis
-    command: redis-server --requirepass devpassword
+    command: redis-server --requirepass devpassword --appendonly yes
     volumes:
-     - 'redis:/var/lib/redis/data'
+     - 'redis:/data'
 
   celery:
     build: .
