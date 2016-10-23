@@ -8,3 +8,4 @@ babel
 gunicorn
 eventlet
 celery
+raven

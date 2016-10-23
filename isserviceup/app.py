@@ -1,9 +1,11 @@
+import logging
 import babel.dates
 import datetime
 
 from isserviceup.config import config
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS, cross_origin
+from raven.contrib.flask import Sentry
 import redis
 
 from isserviceup.services.models.service import Status
@@ -11,6 +13,9 @@ from isserviceup.services.models.service import Status
 app = Flask(__name__, static_url_path='', static_folder='static')
 app.config.from_object(config)
 CORS(app)
+
+if config.SENTRY_DSN:
+    sentry = Sentry(app, logging=True, level=logging.ERROR)
 
 rclient = redis.from_url(config.REDIS_URL, charset="utf-8", decode_responses=True)
 

@@ -1,8 +1,10 @@
 import redis
 import time
+import logging
 
 from celery.utils.log import get_task_logger
-
+from raven import Client as SentryClient
+from raven.contrib.celery import register_signal, register_logger_signal
 from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
 from celery import Celery
@@ -13,6 +15,14 @@ app.config_from_object(celeryconfig)
 
 logger = get_task_logger(__name__)
 rclient = redis.from_url(config.REDIS_URL, charset="utf-8", decode_responses=True)
+
+if config.SENTRY_DSN:
+    client = SentryClient(config.SENTRY_DSN)
+    register_signal(client)
+    register_logger_signal(client, loglevel=logging.ERROR)
+    logger = logging.getLogger('sentry.errors')
+    logger.setLevel(logging.ERROR)
+    logger.addHandler(logging.StreamHandler())
 
 
 @app.task(name='update-services-status')
