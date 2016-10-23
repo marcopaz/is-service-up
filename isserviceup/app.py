@@ -13,6 +13,7 @@ from isserviceup.services.models.service import Status
 app = Flask(__name__, static_url_path='', static_folder='static')
 app.config.from_object(config)
 CORS(app)
+app.debug = config.DEBUG
 
 if config.SENTRY_DSN:
     sentry = Sentry(app, logging=True, level=logging.ERROR)
@@ -70,5 +71,4 @@ def get_index():
 
 
 if __name__ == '__main__':
-    app.debug = config.DEBUG
     app.run(host='0.0.0.0', port=8000)
