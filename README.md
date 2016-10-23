@@ -3,6 +3,7 @@
 
 IsServiceUp helps you monitor all the cloud services you rely on in a single web page.
 
+![](https://raw.githubusercontent.com/marcopaz/is-service-up/master/Screenshot.png)
 
 ## Maintainers
 * [Marco Pazzaglia](https://github.com/marcopaz)
