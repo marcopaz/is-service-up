@@ -1,0 +1,12 @@
+version: '2'
+services:
+ isserviceup:
+   build: .
+   ports:
+    - "8000:8000"
+   volumes:
+    - .:/code
+   depends_on:
+    - redis
+ redis:
+   image: redis
