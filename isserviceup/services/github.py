@@ -2,21 +2,24 @@ import requests
 
 from isserviceup.services.models.service import Service, Status
 
+GitHubStatusMap = {
+    'good': Status.ok,
+    'major': Status.major,
+    'minor': Status.minor
+}
 
-class Heroku(Service):
-    name = 'Heroku'
-    status_url = 'https://status.heroku.com/'
-    icon_url = '/images/icons/heroku.png'
+
+class GitHub(Service):
+    name = 'GitHub'
+    status_url = 'https://status.github.com/'
+    icon_url = '/images/icons/github.png'
 
     def get_status(self):
-        r = requests.get('https://status.heroku.com/api/ui/systems?include=open-incidents.tags%2Copen-incidents.current-update.service-statuses')
+        r = requests.get(self.status_url + 'api/status.json')
         if r.status_code != 200:
             return Status.critical
 
         res = r.json()
-        is_down = any(x['relationships']['open-incidents']['data'] for x in res['data'])
+        status = res['status']
 
-        if is_down:
-            return Status.critical
-        else:
-            return Status.ok
+        return GitHubStatusMap[status]
