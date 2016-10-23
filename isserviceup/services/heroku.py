@@ -9,14 +9,18 @@ class Heroku(Service):
     icon_url = '/images/icons/heroku.png'
 
     def get_status(self):
-        r = requests.get('https://status.heroku.com/api/ui/systems?include=open-incidents.tags%2Copen-incidents.current-update.service-statuses')
+        r = requests.get('https://status.heroku.com/api/v3/current-status')
         if r.status_code != 200:
             return Status.unavailable
 
         res = r.json()
-        is_down = any(x['relationships']['open-incidents']['data'] for x in res['data'])
+        status = res['status']['Production']
 
-        if is_down:
-            return Status.critical
-        else:
+        if status == 'green':
             return Status.ok
+        elif status == 'yellow':
+            return Status.minor
+        elif status == 'orange':
+            return Status.major
+        elif status == 'red':
+            return Status.critical
