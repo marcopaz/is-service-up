@@ -7,6 +7,7 @@ class Status(Enum):
     minor = 3           # yellow
     major = 4           # orange
     critical = 5        # red
+    unavailable = 6
 
 
 class Service(object):

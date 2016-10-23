@@ -12,7 +12,7 @@ class GCloud(Service):
     def get_status(self):
         r = requests.get(self.status_url)
         if r.status_code != 200:
-            return Status.critical
+            return Status.unavailable
 
         b = BeautifulSoup(r.content, 'html.parser')
         status = next(x for x in b.find(class_='subheader').attrs['class']

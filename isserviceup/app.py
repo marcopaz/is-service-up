@@ -6,6 +6,8 @@ from flask import Flask, jsonify, render_template
 from flask_cors import CORS, cross_origin
 import redis
 
+from isserviceup.services.models.service import Status
+
 app = Flask(__name__, static_url_path='', static_folder='static')
 app.config.from_object(config)
 CORS(app)
@@ -24,11 +26,12 @@ def get_index():
     services = config.SERVICES
 
     status_values = {
-        'ok': ('Operational', 'fa-check', 'green'),
-        'minor': ('Degraded Performance', 'fa-minus-square', 'yellow'),
-        'major': ('Partial Outage', 'fa-exclamation-triangle', 'orange'),
-        'critical': ('Major Outage', 'fa-times', 'red'),
-        'maintenance': ('Maintenance', 'fa-wrench', 'blue'),
+        Status.ok.name: ('Operational', 'fa-check', 'green'),
+        Status.minor.name: ('Degraded Performance', 'fa-minus-square', 'yellow'),
+        Status.major.name: ('Partial Outage', 'fa-exclamation-triangle', 'orange'),
+        Status.critical.name: ('Major Outage', 'fa-times', 'red'),
+        Status.maintenance.name: ('Maintenance', 'fa-wrench', 'blue'),
+        Status.unavailable.name: ('Status Unavailable', 'fa-question', 'gray')
     }
 
     pipe = rclient.pipeline()
@@ -39,8 +42,12 @@ def get_index():
 
     data = []
     for i, service in enumerate(services):
-        status = values[i]['status']
-        last_service_update = float(values[i]['last_update'])
+        if not values[i]:
+            status = Status.unavailable.name
+            last_service_update = ''
+        else:
+            status = values[i]['status']
+            last_service_update = float(values[i]['last_update'])
         s = {
             'name': service.name,
             'status_page_url': service.status_url,

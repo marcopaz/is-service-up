@@ -12,7 +12,7 @@ class AWS(Service):
     def get_status(self):
         r = requests.get(self.status_url)
         if r.status_code != 200:
-            return False
+            return Status.unavailable
 
         b = BeautifulSoup(r.content, 'html.parser')
         tc = str(b.find('table'))

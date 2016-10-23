@@ -11,7 +11,7 @@ class Heroku(Service):
     def get_status(self):
         r = requests.get('https://status.heroku.com/api/ui/systems?include=open-incidents.tags%2Copen-incidents.current-update.service-statuses')
         if r.status_code != 200:
-            return Status.critical
+            return Status.unavailable
 
         res = r.json()
         is_down = any(x['relationships']['open-incidents']['data'] for x in res['data'])

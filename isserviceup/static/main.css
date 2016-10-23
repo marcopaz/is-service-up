@@ -70,3 +70,7 @@
 .status-yellow .icon-indicator, .status-yellow a {
     color: #f1c40f;
 }
+
+.status-gray .icon-indicator, .status-gray a {
+    color: gray;
+}
