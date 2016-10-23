@@ -5,3 +5,5 @@ flask-cors
 python-decouple
 redis
 babel
+gunicorn
+eventlet
