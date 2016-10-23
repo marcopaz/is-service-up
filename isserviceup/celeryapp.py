@@ -9,6 +9,7 @@ from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
 from celery import Celery
 
+from isserviceup.services.models.service import Status
 
 app = Celery('app')
 app.config_from_object(celeryconfig)
@@ -36,10 +37,15 @@ def update_services_status():
 def update_service_status(self, idx):
     service = config.SERVICES[idx]
     logger.info('Updating status for service {}'.format(service.name))
-    status = service.get_status().name
+    try:
+        status = service.get_status()
+    except Exception as exc:
+        logger.error('get_status for {} failed with exception={}'.format(
+            service.name, exc))
+        status = Status.unavailable
     key = 'service:{}'.format(service.name)
     pipe = rclient.pipeline()
-    pipe.hset(key, 'status', status)
+    pipe.hset(key, 'status', status.name)
     pipe.hset(key, 'last_update', time.time())
     pipe.execute()
 
