@@ -4,9 +4,13 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+amqp==1.4.9               # via kombu
+anyjson==0.3.3            # via kombu
 babel==2.3.4
 beautifulsoup4==4.5.1     # via bs4
+billiard==3.3.0.23        # via celery
 bs4==0.0.1
+celery==3.1.24
 click==6.6                # via flask
 eventlet==0.19.0
 flask-cors==3.0.2
@@ -15,9 +19,10 @@ greenlet==0.4.10          # via eventlet
 gunicorn==19.6.0
 itsdangerous==0.24        # via flask
 Jinja2==2.8               # via flask
+kombu==3.0.37             # via celery
 MarkupSafe==0.23          # via jinja2
 python-decouple==3.0
-pytz==2016.7              # via babel
+pytz==2016.7              # via babel, celery
 redis==2.10.5
 requests==2.11.1
 Six==1.10.0               # via flask-cors

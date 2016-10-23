@@ -14,5 +14,11 @@ services:
     volumes:
      - 'redis:/var/lib/redis/data'
 
+  celery:
+    build: .
+    command: celery worker -B -l info -A isserviceup.celeryapp.app
+    volumes:
+      - '.:/isserviceup'
+
 volumes:
   redis:
