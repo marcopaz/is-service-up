@@ -1,0 +1,72 @@
+.container {
+    width: 90%;
+    max-width: 850px;
+    font-size: 1.5em;
+}
+
+.logo {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+.footer {
+    text-align: right;
+    color: gray;
+    font-size: 0.6em;
+}
+
+.services-container {
+    border-radius: 3px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.services-section .service-container {
+    padding: 20px;
+    border: 0px solid #eee;
+    border-bottom-width: 1px;
+}
+
+.service-name {
+    margin-left: 5px;
+}
+
+.service-status {
+    float:right;
+    margin-right: 10px;
+}
+
+.service-container .icon-indicator {
+    float: right;
+    position: relative;
+    top: 4px;
+    right: 0;
+}
+
+.service-icon {
+    vertical-align: middle;
+    max-height: 15px;
+    max-width: 15px;
+    position: relative;
+    bottom: 1px;
+}
+
+.status-green .icon-indicator, .status-green a {
+    color: green;
+}
+
+.status-red .icon-indicator, .status-red a {
+    color: #f43f20;
+}
+
+.status-blue .icon-indicator, .status-blue a {
+    color: #3498DB;
+}
+
+.status-orange .icon-indicator, .status-orange a {
+    color: #f18500;
+}
+
+.status-yellow .icon-indicator, .status-yellow a {
+    color: #f1c40f;
+}

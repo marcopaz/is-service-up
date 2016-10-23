@@ -1,0 +1,7 @@
+requests
+bs4
+flask
+flask-cors
+python-decouple
+redis
+babel
