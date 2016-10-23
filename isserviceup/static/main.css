@@ -4,15 +4,21 @@
     font-size: 1.2em;
 }
 
+@media only screen and (max-width : 768px) {
+    .container {
+        font-size: 1em;
+    }
+}
+
 .logo {
     margin-top: 3em;
     margin-bottom: 3em;
 }
 
-.footer {
+.last-update {
     text-align: right;
     color: gray;
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 
 .services-container {
