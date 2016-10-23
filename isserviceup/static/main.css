@@ -10,6 +10,18 @@
     }
 }
 
+.footer {
+    margin-top: 3em;
+    margin-bottom: 3em;
+    color: gray;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.footer a {
+    color: gray;
+}
+
 .logo {
     margin-top: 3em;
     margin-bottom: 3em;
