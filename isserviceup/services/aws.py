@@ -5,7 +5,7 @@ from isserviceup.services.models.service import Service, Status
 
 
 class AWS(Service):
-    name = 'Amazon Web Services (AWS)'
+    name = 'Amazon Web Services'
     status_url = 'http://status.aws.amazon.com/'
     icon_url = '/images/icons/aws.png'
 
