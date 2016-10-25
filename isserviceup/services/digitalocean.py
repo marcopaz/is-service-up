@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from isserviceup.services.models.service import Service, Status
 
 
-class DO():
+class DigitalOcean():
     name = 'DigitalOcean'
     status_url = 'https://status.digitalocean.com'
     icon_url = '/images/icons/do.png'
