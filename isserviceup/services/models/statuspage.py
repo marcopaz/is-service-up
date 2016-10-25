@@ -12,13 +12,7 @@ class StatusPagePlugin(Service):
             return Status.unavailable
 
         b = BeautifulSoup(r.content, 'html.parser')
-
-        page_status = b.find(class_='page-status')
-
-        if page_status is None:
-            if b.find(class_='unresolved-incidents'):
-                return Status.major
-
+        page_status = b.find(class_=['status', 'index'])
         status = next(x for x in page_status.attrs['class'] if x.startswith('status-'))
 
         if status == 'status-none':
