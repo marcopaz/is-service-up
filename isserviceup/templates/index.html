@@ -32,7 +32,7 @@
     <div class="services-section">
         <div class="services-container one-column" id="services">
             {% for service in services %}
-            <div class="service-container border-color data-status="{{service.status}}">
+            <div class="service-container border-color" data-status="{{service.status}}">
                 <div class="service-inner-container status-{{service.status_color}}">
                     <img class="service-icon" src="{{service.icon_url}}" title="{{service.name}}"/>
                     <span class="service-name">{{service.name}}</span>
