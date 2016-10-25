@@ -21,16 +21,7 @@ if config.SENTRY_DSN:
 rclient = redis.from_url(config.REDIS_URL, charset="utf-8", decode_responses=True)
 
 
-@app.template_filter('timedelta')
-def format_timedelta(value):
-    if value is None:
-        return 'never'
-    now = datetime.datetime.now()
-    return babel.dates.format_timedelta(value - now, add_direction=True)
-
-
-@app.route('/', methods=['GET'])
-def get_index():
+def services_status():
     services = config.SERVICES
 
     status_values = {
@@ -69,7 +60,35 @@ def get_index():
         data.append(s)
 
     last_update = datetime.datetime.fromtimestamp(float(values[-1])) if values[-1] else None
-    return render_template('index.html', services=data, last_update=last_update)
+    if last_update:
+        now = datetime.datetime.now()
+        last_update = int((now - last_update).total_seconds())
+    return data, last_update
+
+
+@app.template_filter('timedelta')
+def format_timedelta(value):
+    if value is None:
+        return 'never'
+    now = datetime.datetime.now()
+    return babel.dates.format_timedelta(value - now, add_direction=True)
+
+
+@app.route('/', methods=['GET'])
+def get_index():
+    services, last_update = services_status()
+    return render_template('index.html', services=services, last_update=last_update)
+
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    services, last_update = services_status()
+    return jsonify({
+        'data': {
+            'services': services,
+            'last_update': last_update,
+        }
+    })
 
 
 if __name__ == '__main__':
