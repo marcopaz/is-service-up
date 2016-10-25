@@ -1,5 +1,27 @@
 var REFRESH_INTERVAL = 30;
 
+function requestNotificationPermission() {
+    if (!("Notification" in window)) {
+        return;
+    }
+    Notification.requestPermission();
+}
+
+function spawnNotification(title, options) {
+    if (!("Notification" in window)) {
+        return;
+    }
+    return new Notification(title, options);
+}
+
+function notifyStatusChange(name, icon, newStatus) {
+    var options = {
+        icon: icon
+    };
+    var msg = name + '\'s new status is "' + newStatus + '"';
+    spawnNotification(msg, options);
+}
+
 function updateServiceStatus(elm, service) {
     elm.data('status', service.status);
 
@@ -37,7 +59,9 @@ function loadServicesData() {
             }
             var old_status = elm.data('status');
             if (service.status != old_status) {
+                var icon = elm.find('.service-icon').attr('src');
                 updateServiceStatus(elm, service);
+                notifyStatusChange(service.name, icon, service.status_human)
             }
         });
         $('.last-update-seconds').html(last_update);
@@ -50,6 +74,7 @@ function increaseLastUpdateTime() {
 }
 
 $(function(){
+    requestNotificationPermission();
     setInterval(loadServicesData, REFRESH_INTERVAL * 1000);
     setInterval(increaseLastUpdateTime, 1000);
 });
