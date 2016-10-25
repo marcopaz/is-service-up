@@ -3,6 +3,7 @@ from isserviceup.services.aws import AWS
 from isserviceup.services.compose import Compose
 from isserviceup.services.dnsimple import Dnsimple
 from isserviceup.services.cloudflare import Cloudflare
+from isserviceup.services.linode import Linode
 from isserviceup.services.gcloud import GCloud
 from isserviceup.services.heroku import Heroku
 from isserviceup.services.pingdom import Pingdom
@@ -32,4 +33,5 @@ SERVICES = [
     Pingdom(),
     Dnsimple(),
     Cloudflare(),
+    Linode(),
 ]
