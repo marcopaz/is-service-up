@@ -13,6 +13,9 @@ from celery import Celery
 
 from isserviceup.services.models.service import Status
 
+MAX_RETRIES = 3
+DELAY_RETRY = 2
+
 app = Celery('app')
 app.config_from_object(celeryconfig)
 
@@ -47,15 +50,19 @@ def update_services_status():
         update_service_status.delay(i)
 
 
-@app.task(name='update-service-status', bind=True)
+@app.task(name='update-service-status', bind=True, max_retries=MAX_RETRIES)
 def update_service_status(self, idx):
     service = config.SERVICES[idx]
     logger.info('Updating status for service {}'.format(service.name))
     try:
         status = service.get_status()
     except Exception as exc:
-        set_service_status(service, Status.unavailable)
-        raise
+        if self.request.retries == MAX_RETRIES-1:  # last retry
+            set_service_status(service, Status.unavailable)
+            raise
+        else:
+            return self.retry(exc=exc, countdown=DELAY_RETRY)
+
     set_service_status(service, status)
 
 

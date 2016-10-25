@@ -11,9 +11,6 @@ class DigitalOcean(Service):
 
     def get_status(self):
         r = requests.get(self.status_url)
-        if r.status_code != 200:
-            return Status.unavailable
-
         b = BeautifulSoup(r.content, 'html.parser')
         div = str(b.findAll("div", {"class": "lrg"}))
         if 'success' in div:

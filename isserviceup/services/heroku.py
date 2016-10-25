@@ -10,9 +10,6 @@ class Heroku(Service):
 
     def get_status(self):
         r = requests.get('https://status.heroku.com/api/v3/current-status')
-        if r.status_code != 200:
-            return Status.unavailable
-
         res = r.json()
         status = res['status']['Production']
 

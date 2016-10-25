@@ -8,9 +8,6 @@ class StatusPagePlugin(Service):
 
     def get_status(self):
         r = requests.get(self.status_url)
-        if r.status_code != 200:
-            return Status.unavailable
-
         b = BeautifulSoup(r.content, 'html.parser')
         page_status = b.find(class_=['status', 'index'])
         status = next(x for x in page_status.attrs['class'] if x.startswith('status-'))

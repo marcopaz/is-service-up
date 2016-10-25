@@ -16,10 +16,6 @@ class GitHub(Service):
 
     def get_status(self):
         r = requests.get(self.status_url + 'api/status.json')
-        if r.status_code != 200:
-            return Status.unavailable
-
         res = r.json()
         status = res['status']
-
         return GitHubStatusMap[status]
