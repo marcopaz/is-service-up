@@ -31,4 +31,5 @@ SERVICES = [
     Sentry(),
     Pingdom(),
     Dnsimple(),
+    Cloudflare(),
 ]
