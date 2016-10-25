@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from isserviceup.services.models.service import Service, Status
 
 
-class DigitalOcean():
+class DigitalOcean(Service):
     name = 'DigitalOcean'
     status_url = 'https://status.digitalocean.com'
     icon_url = '/images/icons/do.png'
@@ -15,7 +15,7 @@ class DigitalOcean():
             return Status.unavailable
 
         b = BeautifulSoup(r.content, 'html.parser')
-        div = str(b.findAll("div", { "class" : "lrg"}))
+        div = str(b.findAll("div", {"class": "lrg"}))
         if 'success' in div:
             return Status.ok
         elif 'interim' in div:

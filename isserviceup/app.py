@@ -23,6 +23,8 @@ rclient = redis.from_url(config.REDIS_URL, charset="utf-8", decode_responses=Tru
 
 @app.template_filter('timedelta')
 def format_timedelta(value):
+    if value is None:
+        return 'never'
     now = datetime.datetime.now()
     return babel.dates.format_timedelta(value - now, add_direction=True)
 
@@ -50,7 +52,7 @@ def get_index():
     for i, service in enumerate(services):
         if not values[i]:
             status = Status.unavailable.name
-            last_service_update = ''
+            last_service_update = None
         else:
             status = values[i]['status']
             last_service_update = float(values[i]['last_update'])
@@ -58,15 +60,15 @@ def get_index():
             'name': service.name,
             'status_page_url': service.status_url,
             'icon_url': service.icon_url,
-            'status': status_values[status][0],
+            'status': status,
+            'status_human': status_values[status][0],
             'last_update': last_service_update,
             'status_icon': status_values[status][1],
             'status_color': status_values[status][2],
         }
         data.append(s)
 
-    last_update = float(values[-1]) if values[-1] else 0
-    last_update = datetime.datetime.fromtimestamp(last_update)
+    last_update = datetime.datetime.fromtimestamp(float(values[-1])) if values[-1] else None
     return render_template('index.html', services=data, last_update=last_update)
 
 
