@@ -5,7 +5,7 @@ from isserviceup.services.models.service import Service, Status
 
 
 class DO():
-    name = 'Digital Ocean'
+    name = 'DigitalOcean'
     status_url = 'https://status.digitalocean.com'
     icon_url = '/images/icons/do.png'
 
