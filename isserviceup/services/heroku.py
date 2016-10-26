@@ -21,3 +21,6 @@ class Heroku(Service):
             return Status.major
         elif status == 'red':
             return Status.critical
+        else:
+            raise Exception('unexpected status')
+
