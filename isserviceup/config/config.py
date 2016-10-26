@@ -1,5 +1,6 @@
 from decouple import config
 from isserviceup.services.aws import AWS
+from isserviceup.services.azure import Azure
 from isserviceup.services.circleci import CircleCI
 from isserviceup.services.compose import Compose
 from isserviceup.services.dnsimple import Dnsimple
@@ -40,4 +41,5 @@ SERVICES = [
     DigitalOcean(),
     Travis(),
     CircleCI(),
+    Azure(),
 ]
