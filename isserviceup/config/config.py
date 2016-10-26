@@ -11,6 +11,7 @@ from isserviceup.services.pingdom import Pingdom
 from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
+from isserviceup.services.travis import Travis
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
@@ -36,4 +37,5 @@ SERVICES = [
     Cloudflare(),
     Linode(),
     DigitalOcean(),
+    Travis(),
 ]
