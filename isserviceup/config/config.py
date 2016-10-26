@@ -1,5 +1,6 @@
 from decouple import config
 from isserviceup.services.aws import AWS
+from isserviceup.services.circleci import CircleCI
 from isserviceup.services.compose import Compose
 from isserviceup.services.dnsimple import Dnsimple
 from isserviceup.services.cloudflare import Cloudflare
@@ -38,4 +39,5 @@ SERVICES = [
     Linode(),
     DigitalOcean(),
     Travis(),
+    CircleCI(),
 ]
