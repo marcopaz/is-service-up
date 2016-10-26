@@ -38,9 +38,13 @@ if config.SENTRY_DSN:
 def set_service_status(service, status):
     key = 'service:{}'.format(service.name)
     pipe = rclient.pipeline()
+    pipe.hget(key, 'status')
+    old_status = pipe.execute()[0]
     pipe.hset(key, 'status', status.name)
     pipe.hset(key, 'last_update', time.time())
     pipe.execute()
+    if old_status != status.name:
+        broadcast_status_change.delay(service.name, old_status, status.name)
 
 
 @app.task(name='update-services-status')
@@ -64,6 +68,18 @@ def update_service_status(self, idx):
             return self.retry(exc=exc, countdown=DELAY_RETRY)
 
     set_service_status(service, status)
+
+
+@app.task(name='broadcast-status-change')
+def broadcast_status_change(service, old_status, new_status):
+    for i in range(len(config.NOTIFIERS)):
+        notify_status_change.delay(i, service, old_status, new_status)
+
+
+@app.task(name='notify-status-change')
+def notify_status_change(idx, service, old_status, new_status):
+    notifier = config.NOTIFIERS[idx]
+    notifier.notify(service, old_status, new_status)
 
 
 if __name__ == '__main__':

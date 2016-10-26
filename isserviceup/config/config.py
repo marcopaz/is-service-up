@@ -12,6 +12,8 @@ from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
 
+from isserviceup.notifiers.slack import Slack
+
 DEBUG = config('DEBUG', cast=bool, default=False)
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
 STATUS_UPDATE_INTERVAL = config('STATUS_UPDATE_INTERVAL', cast=int, default=30)
@@ -22,6 +24,10 @@ SENTRY_DSN = config('SENTRY_DSN', default=None)
 CELERY_EAGER = config('CELERY_EAGER', cast=bool, default=False)
 CELERY_BROKER = config('CELERY_BROKER', default=REDIS_URL)
 CELERY_BACKEND = config('CELERY_BACKEND', default=REDIS_URL)
+
+NOTIFIERS = [
+    Slack()
+]
 
 SERVICES = [
     AWS(),
