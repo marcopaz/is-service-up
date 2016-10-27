@@ -1,20 +1,14 @@
 # IsServiceUp
-[![irc](https://img.shields.io/badge/irc%20channel-%23isserviceup-blue.svg)](https://webchat.freenode.net/?channels=isserviceup)
 
 IsServiceUp helps you monitor all the cloud services you rely on in a single web page. 
 
 You can customize it with the services you want to monitor and host it on your own server.
 
-Demo available at [isserviceup.com](http://www.isserviceup.com)
+Demo available at [isserviceup.com](http://isserviceup.com)
 
 ![](https://raw.githubusercontent.com/marcopaz/is-service-up/master/Screenshot.png)
 
 Sorry, Compose, bad timing :smile:
-
-## Maintainers
-* [Marco Pazzaglia](https://github.com/marcopaz)
-* [Alessandro Cosentino](https://github.com/cosenal)
-
 
 ## How to run
 ### Using Docker
@@ -22,7 +16,7 @@ Sorry, Compose, bad timing :smile:
 
 and you're up and running! :sparkles:
 ### List of services
-You can customize very easily the list of services you want to monitor by editing the variable `SERVICES` in the config file __isserviceup/config/config.py__
+You can customize very easily the list of services you want to monitor by editing the variable `SERVICES` in the [config file](https://github.com/marcopaz/is-service-up/blob/master/isserviceup/config/config.py).
 
 ## How to contribute
 If you want to add something to the project, please fork this repository and create a Pull request.
@@ -37,6 +31,9 @@ Next, figure out if the status page is built using [Atlassian StatusPage](https:
 
 If it's a more generic status page, then the implementation depends on the specific service. If you're lucky, the status will be exposed through a beautiful API, like in [the case of GitHub](https://github.com/marcopaz/is-service-up/blob/master/isserviceup/services/github.py). Otherwise, find your inspiration from all others services that we have implemented for you. Good luck! :satellite:
 
+## Maintainers
+* [Marco Pazzaglia](https://github.com/marcopaz)
+* [Alessandro Cosentino](https://github.com/cosenal)
 
 
 
