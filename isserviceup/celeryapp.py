@@ -1,16 +1,17 @@
-import redis
-import time
 import logging
+import time
 
-from celery.utils.log import get_task_logger
 import raven
+import redis
+from celery import Celery
+from celery.utils.log import get_task_logger
 from raven.conf import setup_logging
 from raven.contrib.celery import register_signal, register_logger_signal
 from raven.handlers.logging import SentryHandler
+
 from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
-from celery import Celery
-
+from isserviceup.storage.services import set_service_status, set_last_update
 from isserviceup.services.models.service import Status
 
 MAX_RETRIES = 3
@@ -35,17 +36,9 @@ if config.SENTRY_DSN:
     logger.addHandler(logging.StreamHandler())
 
 
-def set_service_status(service, status):
-    key = 'service:{}'.format(service.name)
-    pipe = rclient.pipeline()
-    pipe.hset(key, 'status', status.name)
-    pipe.hset(key, 'last_update', time.time())
-    pipe.execute()
-
-
 @app.task(name='update-services-status')
 def update_services_status():
-    rclient.set('services:last_update', time.time())
+    set_last_update(rclient, time.time())
     for i in range(len(config.SERVICES)):
         update_service_status.delay(i)
 
@@ -58,12 +51,12 @@ def update_service_status(self, idx):
         status = service.get_status()
     except Exception as exc:
         if self.request.retries == MAX_RETRIES-1:  # last retry
-            set_service_status(service, Status.unavailable)
+            set_service_status(rclient, service, Status.unavailable)
             raise
         else:
             return self.retry(exc=exc, countdown=DELAY_RETRY)
 
-    set_service_status(service, status)
+    set_service_status(rclient, service, status)
 
 
 if __name__ == '__main__':
