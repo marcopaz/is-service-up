@@ -1,5 +1,15 @@
 var REFRESH_INTERVAL = 30;
 
+function makeServiceRowsClickable() {
+    $(".service-container").click(function() {
+        window.location = $(this).data('location');
+        return false;
+    });
+    $(".service-container").each(function() {
+        $(this).addClass('clickable');
+    });
+}
+
 function requestNotificationPermission() {
     if (!("Notification" in window)) {
         return;
@@ -74,6 +84,7 @@ function increaseLastUpdateTime() {
 }
 
 $(function(){
+    makeServiceRowsClickable();
     requestNotificationPermission();
     setInterval(loadServicesData, REFRESH_INTERVAL * 1000);
     setInterval(increaseLastUpdateTime, 1000);

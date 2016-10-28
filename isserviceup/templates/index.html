@@ -25,14 +25,14 @@
 <div class="container">
     <div class="row logo">
         <div class="col-lg-12">
-            <img src="/images/logo.png" title="isServiceUp" height="60" />
+            <img class="logo-img" src="/images/logo.png" title="isServiceUp" height="60" />
             <!--<h1>Monitor the status of your cloud services</h1>-->
         </div>
     </div>
     <div class="services-section">
         <div class="services-container one-column" id="services">
             {% for service in services %}
-            <div class="service-container border-color" data-status="{{service.status}}">
+            <div class="service-container border-color" data-status="{{service.status}}" data-location="{{service.status_page_url}}">
                 <div class="service-inner-container status-{{service.status_color}}">
                     <img class="service-icon" src="{{service.icon_url}}" title="{{service.name}}"/>
                     <span class="service-name">{{service.name}}</span>

@@ -27,6 +27,10 @@
     margin-bottom: 3em;
 }
 
+.logo-img {
+    max-width: 100%;
+}
+
 .last-update {
     text-align: right;
     color: gray;
@@ -45,6 +49,10 @@
     border-bottom-width: 1px;
 }
 
+.service-container:hover {
+    background-color: #f3f3f3;
+}
+
 .service-name {
     margin-left: 5px;
 }
@@ -52,6 +60,12 @@
 .service-status {
     float:right;
     margin-right: 10px;
+}
+
+@media only screen and (max-width : 450px) {
+    .service-status {
+        display: none;
+    }
 }
 
 .service-container .icon-indicator {
@@ -91,4 +105,8 @@
 
 .status-gray .icon-indicator, .status-gray a {
     color: gray;
+}
+
+.clickable {
+    cursor: pointer;
 }
