@@ -1,12 +1,16 @@
 FROM python:3.5
 
+RUN useradd --user-group --create-home --shell /bin/false app
+
 ENV INSTALL_PATH /isserviceup
-RUN mkdir -p $INSTALL_PATH
+RUN mkdir -p $INSTALL_PATH && chown app:app /isserviceup
 
 WORKDIR $INSTALL_PATH
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+
+USER app
 
 COPY . .
 
