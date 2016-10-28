@@ -14,7 +14,7 @@ class Azure(Service):
         b = BeautifulSoup(r.content, 'html.parser')
         div = str(b.select_one('.section.section-size3.section-slate09'))
 
-        if 'health-circle' in div or 'health-check' in div:
+        if 'health-circle' in div or 'health-check' in div or 'health-information' in div:
             return Status.ok
         elif 'health-warning' in div:
             return Status.minor
