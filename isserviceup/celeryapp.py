@@ -36,16 +36,6 @@ if config.SENTRY_DSN:
     logger.addHandler(logging.StreamHandler())
 
 
-def set_service_status(service, status):
-    key = 'service:{}'.format(service.name)
-    pipe = rclient.pipeline()
-    pipe.hget(key, 'status')
-    pipe.hmset(key, {'status': status.name, 'last_update': time.time()})
-    old_status = pipe.execute()[0]
-    if old_status != status.name:
-        broadcast_status_change.delay(service.name, old_status, status.name)
-
-
 @app.task(name='update-services-status')
 def update_services_status():
     set_last_update(rclient, time.time())
