@@ -62,12 +62,6 @@
     margin-right: 10px;
 }
 
-@media only screen and (max-width : 450px) {
-    .service-status {
-        display: none;
-    }
-}
-
 .service-container .icon-indicator {
     float: right;
     position: relative;
@@ -83,30 +77,68 @@
     bottom: 1px;
 }
 
-.status-green .icon-indicator, .status-green a {
+.status-green .icon-indicator, .status-green a, .status-green .status-description {
     color: green;
 }
 
-.status-red .icon-indicator, .status-red a {
+.status-red .icon-indicator, .status-red a, .status-red .status-description {
     color: #f43f20;
 }
 
-.status-blue .icon-indicator, .status-blue a {
+.status-blue .icon-indicator, .status-blue a, .status-blue .status-description {
     color: #3498DB;
 }
 
-.status-orange .icon-indicator, .status-orange a {
+.status-orange .icon-indicator, .status-orange a, .status-orange .status-description {
     color: #f18500;
 }
 
-.status-yellow .icon-indicator, .status-yellow a {
+.status-yellow .icon-indicator, .status-yellow a, .status-yellow .status-description {
     color: #f1c40f;
 }
 
-.status-gray .icon-indicator, .status-gray a {
+.status-gray .icon-indicator, .status-gray a, .status-gray .status-description {
     color: gray;
 }
 
 .clickable {
     cursor: pointer;
+}
+
+.legend-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8em;
+}
+
+.status-description {
+}
+
+.legend-list .icon-indicator {
+    width: 20px;
+    height: 10px;
+}
+
+.legend-list .status-description {
+}
+
+.hidden-xxs {
+    display: block;
+}
+
+@media only screen and (max-width : 450px) {
+    .hidden-xxs {
+        display: none;
+    }
+}
+
+.visible-xxs {
+    display: none;
+}
+
+@media only screen and (max-width : 450px) {
+    .visible-xxs {
+        display: block;
+    }
 }
