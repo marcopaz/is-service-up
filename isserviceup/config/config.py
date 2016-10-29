@@ -25,8 +25,10 @@ CELERY_EAGER = config('CELERY_EAGER', cast=bool, default=False)
 CELERY_BROKER = config('CELERY_BROKER', default=REDIS_URL)
 CELERY_BACKEND = config('CELERY_BACKEND', default=REDIS_URL)
 
+SLACK_WEB_HOOK_URL = config('SLACK_WEB_HOOK_URL', default=None)
+
 NOTIFIERS = [
-    Slack()
+    Slack(SLACK_WEB_HOOK_URL)
 ]
 
 SERVICES = [

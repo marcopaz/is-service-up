@@ -2,10 +2,11 @@ from decouple import config
 import requests
 from isserviceup.notifiers.notifier import Notifier
 
-SLACK_WEBHOOK_URL = config('SLACK_WEBHOOK_URL', default=None)
-
 
 class Slack(Notifier):
+
+    def __init__(self, web_hook_url):
+        self.web_hook_url = web_hook_url
 
     def notify(self, service, old_status, new_status):
         payload = {
@@ -15,5 +16,5 @@ class Slack(Notifier):
                 old_status,
             )
         }
-        r = requests.post(SLACK_WEBHOOK_URL, json=payload)
+        r = requests.post(self.web_hook_url, json=payload)
         print(r.status_code)
