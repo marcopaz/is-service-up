@@ -39,10 +39,8 @@ def set_service_status(service, status):
     key = 'service:{}'.format(service.name)
     pipe = rclient.pipeline()
     pipe.hget(key, 'status')
+    pipe.hmset(key, {'status': status.name, 'last_update': time.time()})
     old_status = pipe.execute()[0]
-    pipe.hset(key, 'status', status.name)
-    pipe.hset(key, 'last_update', time.time())
-    pipe.execute()
     if old_status != status.name:
         broadcast_status_change.delay(service.name, old_status, status.name)
 
