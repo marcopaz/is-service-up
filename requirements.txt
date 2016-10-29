@@ -6,7 +6,6 @@
 #
 amqp==1.4.9               # via kombu
 anyjson==0.3.3            # via kombu
-babel==2.3.4
 beautifulsoup4==4.5.1     # via bs4
 billiard==3.3.0.23        # via celery
 blinker==1.4
@@ -24,7 +23,7 @@ Jinja2==2.8               # via flask
 kombu==3.0.37             # via celery
 MarkupSafe==0.23          # via jinja2
 python-decouple==3.0
-pytz==2016.7              # via babel, celery
+pytz==2016.7              # via celery
 raven==5.31.0
 redis==2.10.5
 requests==2.11.1

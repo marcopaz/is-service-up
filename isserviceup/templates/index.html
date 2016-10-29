@@ -25,19 +25,19 @@
 <div class="container">
     <div class="row logo">
         <div class="col-lg-12">
-            <img src="/images/logo.png" title="isServiceUp" height="60" />
+            <img class="logo-img" src="/images/logo.png" title="isServiceUp" height="60" />
             <!--<h1>Monitor the status of your cloud services</h1>-->
         </div>
     </div>
     <div class="services-section">
         <div class="services-container one-column" id="services">
             {% for service in services %}
-            <div class="service-container border-color" data-status="{{service.status}}">
+            <div class="service-container border-color" data-status="{{service.status}}" data-location="{{service.status_page_url}}">
                 <div class="service-inner-container status-{{service.status_color}}">
                     <img class="service-icon" src="{{service.icon_url}}" title="{{service.name}}"/>
                     <span class="service-name">{{service.name}}</span>
                     <span class="icon-indicator fa {{service.status_icon}}"></span>
-                    <span class="service-status"><a href="{{service.status_page_url}}">{{service.status_human}}</a></span>
+                    <span class="service-status hidden-xxs"><a href="{{service.status_page_url}}">{{service.status_human}}</a></span>
                 </div>
             </div>
             {% endfor %}
@@ -46,6 +46,17 @@
 
     <div class="last-update">
         Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
+    </div>
+
+    <div class="legend visible-xxs">
+        <ul class="legend-list">
+            <li class="status-green"><span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span></li>
+            <li class="status-yellow"><span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span></li>
+            <li class="status-orange"><span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span></li>
+            <li class="status-red"><span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span></li>
+            <li class="status-blue"><span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span></li>
+            <li class="status-gray"><span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span></li>
+        </ul>
     </div>
 
     <div class="footer">

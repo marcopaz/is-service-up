@@ -1,5 +1,7 @@
 from decouple import config
 from isserviceup.services.aws import AWS
+from isserviceup.services.azure import Azure
+from isserviceup.services.circleci import CircleCI
 from isserviceup.services.compose import Compose
 from isserviceup.services.dnsimple import Dnsimple
 from isserviceup.services.cloudflare import Cloudflare
@@ -11,6 +13,7 @@ from isserviceup.services.pingdom import Pingdom
 from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
+from isserviceup.services.travis import Travis
 
 from isserviceup.notifiers.slack import Slack
 
@@ -44,4 +47,7 @@ SERVICES = [
     Cloudflare(),
     Linode(),
     DigitalOcean(),
+    Travis(),
+    CircleCI(),
+    Azure(),
 ]
