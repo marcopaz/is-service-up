@@ -41,6 +41,7 @@
     border-radius: 3px;
     border: 1px solid #eee;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .services-section .service-container {
