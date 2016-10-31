@@ -15,10 +15,14 @@ def set_last_update(client: redis.Redis, t: float):
 
 
 def set_service_status(client: redis.Redis, service: Service, status: Status):
-    client.hmset(_status_key(service), {
+    key = _status_key(service)
+    pipe = client.pipeline()
+    pipe.hget(key, 'status')
+    pipe.hmset(key, {
         'status': status.name,
         'last_update': time.time(),
     })
+    return pipe.execute()
 
 
 def get_status(client: redis.Redis, services: List[Service]) -> (List[str], datetime.datetime):
