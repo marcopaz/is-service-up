@@ -17,7 +17,9 @@ import Service from './Service';
 function notifyStatusChanges(oldServices, newServices) {
   $.each(oldServices, function(i, oldService) {
     var newService = newServices[i];
-    if (!oldService || newService.status == oldService.status) {
+    if (!oldService
+          || oldService.name != newService.name
+          || newService.status == oldService.status) {
       return;
     }
     notifyStatusChange(newService.name, newService.icon, newService.description)
