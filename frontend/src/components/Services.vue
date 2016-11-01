@@ -3,7 +3,7 @@
       <div class="services-container one-column" id="services">
         <service v-for="service in services" :service="service"></service>
       </div>
-      <div class="last-update">
+      <div class="last-update" v-if="last_update != null">
         Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
       </div>
   </div>
@@ -60,7 +60,7 @@ export default {
         services = services.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
         notifyStatusChanges(self.services, data.data.services);
         self.services = data.data.services;
-        self.last_update = data.data.last_update;
+        self.last_update = 0;
       });
     },
 
