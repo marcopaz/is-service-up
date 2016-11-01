@@ -1,6 +1,10 @@
 <template>
   <div>
-      <div class="services-container one-column" id="services">
+      <div class="loading" v-if="!services || services.length == 0">
+        <img src="/images/loading.gif" alt="loading.." title="loading.." />
+        <div>Loading service status..</div>
+      </div>
+      <div class="services-container one-column" id="services" v-if="services && services.length > 0">
         <service v-for="service in services" :service="service"></service>
       </div>
       <div class="last-update" v-if="last_update != null">
