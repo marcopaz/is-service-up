@@ -10,6 +10,14 @@
     }
 }
 
+.loading {
+  text-align: center;
+  padding: 30px;
+}
+.loading img {
+  margin-bottom: 10px;
+}
+
 .footer {
     margin-top: 3em;
     margin-bottom: 3em;
