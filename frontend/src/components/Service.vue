@@ -19,9 +19,6 @@ export default {
   props: ['service'],
   data: function() {
     return {
-      color: config.STATUS_COLOR[this.service.status],
-      icon: config.STATUS_ICON[this.service.status],
-      description: config.STATUS_DESCRIPTION[this.service.status],
     };
   },
   methods: {
@@ -30,5 +27,16 @@ export default {
       return false;
     },
   },
+  computed: {
+    color: function() {
+      return config.STATUS_COLOR[this.service.status];
+    },
+    icon: function() {
+      return config.STATUS_ICON[this.service.status];
+    },
+    description: function() {
+      return config.STATUS_DESCRIPTION[this.service.status];
+    },
+  }
 };
 </script>
