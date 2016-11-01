@@ -56,10 +56,9 @@ def update_service_status(self, idx):
         else:
             return self.retry(exc=exc, countdown=DELAY_RETRY)
 
-    old_status, _ = set_service_status(rclient, service, status)
-    if old_status != status.name:
-        broadcast_status_change.delay(service.name, old_status, status.name)
-
+    old_status = set_service_status(rclient, service, status)
+    if old_status != status:
+        broadcast_status_change.delay(service.name, old_status.name, status.name)
 
 
 @app.task(name='broadcast-status-change')

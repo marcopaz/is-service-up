@@ -14,7 +14,7 @@ def set_last_update(client: redis.Redis, t: float):
     client.set(_last_update_key, t)
 
 
-def set_service_status(client: redis.Redis, service: Service, status: Status):
+def set_service_status(client: redis.Redis, service: Service, status: Status) -> Status:
     key = _status_key(service)
     pipe = client.pipeline()
     pipe.hget(key, 'status')
@@ -22,7 +22,10 @@ def set_service_status(client: redis.Redis, service: Service, status: Status):
         'status': status.name,
         'last_update': time.time(),
     })
-    return pipe.execute()
+    prev_status = pipe.execute()[0]
+    if prev_status is not None:
+        prev_status = Status[prev_status]
+    return prev_status
 
 
 def get_status(client: redis.Redis, services: List[Service]) -> (List[str], datetime.datetime):
