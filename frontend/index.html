@@ -15,8 +15,7 @@
                     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', '{{config.GA_CODE}}', 'auto');
+        ga('create', 'UA-86164785-1', 'auto');
         ga('send', 'pageview');
     </script>
 </head>
@@ -30,22 +29,7 @@
         </div>
     </div>
     <div class="services-section">
-        <div class="services-container one-column" id="services">
-            {% for service in services %}
-            <div class="service-container border-color" data-status="{{service.status}}" data-location="{{service.status_page_url}}">
-                <div class="service-inner-container status-{{service.status_color}}">
-                    <img class="service-icon" src="{{service.icon_url}}" title="{{service.name}}"/>
-                    <span class="service-name">{{service.name}}</span>
-                    <span class="icon-indicator fa {{service.status_icon}}"></span>
-                    <span class="service-status hidden-xxs"><a href="{{service.status_page_url}}">{{service.status_human}}</a></span>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="last-update">
-        Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
+        <div id="services"></div>
     </div>
 
     <div class="legend visible-xxs">
@@ -65,6 +49,5 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="/main.js"></script>
 </body>
 </html>

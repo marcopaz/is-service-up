@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from isserviceup.config import config
 
 for service in config.SERVICES:
