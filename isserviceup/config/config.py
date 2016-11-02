@@ -19,6 +19,7 @@ from isserviceup.services.sendgrid import SendGrid
 from isserviceup.services.sparkpost import SparkPost
 from isserviceup.services.stormpath import StormPath
 from isserviceup.services.datadog import DataDog
+from isserviceup.services.statuspage import StatusPage
 
 from isserviceup.notifiers.slack import Slack
 
@@ -59,4 +60,5 @@ SERVICES = [
     SparkPost(),
     StormPath(),
     DataDog(),
+    StatusPage(),
 ]
