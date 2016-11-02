@@ -14,13 +14,17 @@ from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
 from isserviceup.services.travis import Travis
+from isserviceup.services.twillio import Twillio
+from isserviceup.services.sendgrid import SendGrid
+from isserviceup.services.sparkpost import SparkPost
+from isserviceup.services.stormpath import StormPath
+from isserviceup.services.datadog import DataDog
 
 from isserviceup.notifiers.slack import Slack
 
 DEBUG = config('DEBUG', cast=bool, default=False)
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
 STATUS_UPDATE_INTERVAL = config('STATUS_UPDATE_INTERVAL', cast=int, default=30)
-GA_CODE = config('GA_CODE', default='UA-86164785-1')
 
 SENTRY_DSN = config('SENTRY_DSN', default=None)
 
@@ -50,4 +54,9 @@ SERVICES = [
     Travis(),
     CircleCI(),
     Azure(),
+    Twillio(),
+    SendGrid(),
+    SparkPost(),
+    StormPath(),
+    DataDog(),
 ]
