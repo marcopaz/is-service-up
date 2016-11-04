@@ -14,6 +14,13 @@ from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
 from isserviceup.services.travis import Travis
+from isserviceup.services.twillio import Twillio
+from isserviceup.services.sendgrid import SendGrid
+from isserviceup.services.sparkpost import SparkPost
+from isserviceup.services.stormpath import StormPath
+from isserviceup.services.datadog import DataDog
+from isserviceup.services.statuspage import StatusPage
+from isserviceup.services.rollbar import RollBar
 
 from isserviceup.notifiers.slack import Slack
 
@@ -49,4 +56,11 @@ SERVICES = [
     Travis(),
     CircleCI(),
     Azure(),
+    Twillio(),
+    SendGrid(),
+    SparkPost(),
+    StormPath(),
+    DataDog(),
+    StatusPage(),
+    RollBar(),
 ]
