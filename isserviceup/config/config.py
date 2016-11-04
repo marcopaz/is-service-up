@@ -21,6 +21,8 @@ from isserviceup.services.stormpath import StormPath
 from isserviceup.services.datadog import DataDog
 from isserviceup.services.statuspage import StatusPage
 from isserviceup.services.rollbar import RollBar
+from isserviceup.services.quay import Quay
+
 
 from isserviceup.notifiers.slack import Slack
 
@@ -63,4 +65,5 @@ SERVICES = [
     DataDog(),
     StatusPage(),
     RollBar(),
+    Quay(),
 ]
