@@ -2,4 +2,5 @@
 *.pyc
 .idea
 .env*
-/celerybeat-schedule.db
+celerybeat-schedule*
+
