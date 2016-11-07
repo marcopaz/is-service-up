@@ -25,6 +25,8 @@ from isserviceup.services.quay import Quay
 from isserviceup.services.gotomeeting import GotoMeeting
 from isserviceup.services.pagerduty import PagerDuty
 from isserviceup.services.victorops import VictorOps
+from isserviceup.services.duo import Duo
+from isserviceup.services.pingidentity import PingIdentity
 
 from isserviceup.notifiers.slack import Slack
 
@@ -71,4 +73,6 @@ SERVICES = [
     GotoMeeting(),
     PagerDuty(),
     VictorOps(),
+    Duo(),
+    PingIdentity(),
 ]
