@@ -48,7 +48,8 @@ from isserviceup.services.atlassian import Atlassian
 from isserviceup.services.gocardless import GoCardless
 from isserviceup.services.harvest import Harvest
 from isserviceup.services.codeclimate import CodeClimate
-
+from isserviceup.services.box import Box
+from isserviceup.services.dropbox import Dropbox
 
 from isserviceup.notifiers.slack import Slack
 
@@ -118,4 +119,6 @@ SERVICES = [
     GoCardless(),
     Harvest(),
     CodeClimate(),
+    Box(),
+    Dropbox(),
 ]
