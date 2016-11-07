@@ -22,7 +22,9 @@ from isserviceup.services.datadog import DataDog
 from isserviceup.services.statuspage import StatusPage
 from isserviceup.services.rollbar import RollBar
 from isserviceup.services.quay import Quay
-
+from isserviceup.services.gotomeeting import GotoMeeting
+from isserviceup.services.pagerduty import PagerDuty
+from isserviceup.services.victorops import VictorOps
 
 from isserviceup.notifiers.slack import Slack
 
@@ -66,4 +68,7 @@ SERVICES = [
     StatusPage(),
     RollBar(),
     Quay(),
+    GotoMeeting(),
+    PagerDuty(),
+    VictorOps(),
 ]
