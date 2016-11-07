@@ -58,7 +58,7 @@ def update_service_status(self, idx):
 
     logger.info('Service={} has status={}'.format(service.name, status.name))
     old_status = set_service_status(rclient, service, status)
-    if old_status != status:
+    if old_status is not None and old_status != status:
         broadcast_status_change.delay(service.name, old_status.name, status.name)
 
 
