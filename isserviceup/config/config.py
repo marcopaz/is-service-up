@@ -28,6 +28,7 @@ from isserviceup.services.victorops import VictorOps
 from isserviceup.services.duo import Duo
 from isserviceup.services.pingidentity import PingIdentity
 from isserviceup.services.disqus import Disqus
+from isserviceup.services.bitbucket import BitBucket
 
 from isserviceup.notifiers.slack import Slack
 
@@ -77,4 +78,5 @@ SERVICES = [
     Duo(),
     PingIdentity(),
     Disqus(),
+    BitBucket(),
 ]
