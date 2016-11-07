@@ -43,6 +43,7 @@ from isserviceup.services.loggly import Loggly
 from isserviceup.services.opbeat import OpBeat
 from isserviceup.services.pusher import Pusher
 from isserviceup.services.rubygems import RubyGems
+from isserviceup.services.chargify import Chargify
 
 from isserviceup.notifiers.slack import Slack
 
@@ -107,4 +108,5 @@ SERVICES = [
     OpBeat(),
     Pusher(),
     RubyGems(),
+    Chargify(),
 ]
