@@ -27,6 +27,7 @@ from isserviceup.services.pagerduty import PagerDuty
 from isserviceup.services.victorops import VictorOps
 from isserviceup.services.duo import Duo
 from isserviceup.services.pingidentity import PingIdentity
+from isserviceup.services.disqus import Disqus
 
 from isserviceup.notifiers.slack import Slack
 
@@ -75,4 +76,5 @@ SERVICES = [
     VictorOps(),
     Duo(),
     PingIdentity(),
+    Disqus(),
 ]
