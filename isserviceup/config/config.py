@@ -50,6 +50,7 @@ from isserviceup.services.harvest import Harvest
 from isserviceup.services.codeclimate import CodeClimate
 from isserviceup.services.box import Box
 from isserviceup.services.dropbox import Dropbox
+from isserviceup.services.codeship import CodeShip
 
 from isserviceup.notifiers.slack import Slack
 
@@ -121,4 +122,5 @@ SERVICES = [
     CodeClimate(),
     Box(),
     Dropbox(),
+    CodeShip(),
 ]
