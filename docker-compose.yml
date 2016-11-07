@@ -15,9 +15,15 @@ services:
     volumes:
      - 'redis:/data'
 
+  celery_beat:
+    build: .
+    command: celery -A isserviceup.celeryapp.app beat
+    volumes:
+      - '.:/isserviceup'
+
   celery:
     build: .
-    command: celery worker -B -l info -A isserviceup.celeryapp.app
+    command: celery worker -l info -P gevent -c 50 -A isserviceup.celeryapp.app
     volumes:
       - '.:/isserviceup'
 
