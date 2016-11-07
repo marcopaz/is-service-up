@@ -31,6 +31,18 @@ from isserviceup.services.disqus import Disqus
 from isserviceup.services.bitbucket import BitBucket
 from isserviceup.services.packagecloud import PackageCloud
 from isserviceup.services.fastly import Fastly
+from isserviceup.services.dyn import Dyn
+from isserviceup.services.sendwithus import SendWithUs
+from isserviceup.services.authorizedotnet import AuthorizeDotNet
+from isserviceup.services.hashicorp import HashiCorp
+from isserviceup.services.npm import NPM
+from isserviceup.services.pypi import PythonInfra
+from isserviceup.services.maxcdn import MaxCDN
+from isserviceup.services.mailgun import MailGun
+from isserviceup.services.loggly import Loggly
+from isserviceup.services.opbeat import OpBeat
+from isserviceup.services.pusher import Pusher
+from isserviceup.services.rubygems import RubyGems
 
 from isserviceup.notifiers.slack import Slack
 
@@ -83,4 +95,16 @@ SERVICES = [
     BitBucket(),
     PackageCloud(),
     Fastly(),
+    Dyn(),
+    SendWithUs(),
+    AuthorizeDotNet(),
+    HashiCorp(),
+    NPM(),
+    PythonInfra(),
+    MaxCDN(),
+    MailGun(),
+    Loggly(),
+    OpBeat(),
+    Pusher(),
+    RubyGems(),
 ]
