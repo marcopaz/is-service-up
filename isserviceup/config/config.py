@@ -53,6 +53,7 @@ from isserviceup.services.dropbox import Dropbox
 from isserviceup.services.codeship import CodeShip
 from isserviceup.services.shotgun import Shotgun
 from isserviceup.services.ftrack import FTrack
+from isserviceup.services.newrelic import NewRelic
 
 from isserviceup.notifiers.slack import Slack
 
@@ -127,4 +128,5 @@ SERVICES = [
     CodeShip(),
     Shotgun(),
     FTrack(),
+    NewRelic(),
 ]
