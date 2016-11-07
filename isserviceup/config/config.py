@@ -30,6 +30,7 @@ from isserviceup.services.pingidentity import PingIdentity
 from isserviceup.services.disqus import Disqus
 from isserviceup.services.bitbucket import BitBucket
 from isserviceup.services.packagecloud import PackageCloud
+from isserviceup.services.fastly import Fastly
 
 from isserviceup.notifiers.slack import Slack
 
@@ -81,5 +82,5 @@ SERVICES = [
     Disqus(),
     BitBucket(),
     PackageCloud(),
-    
+    Fastly(),
 ]
