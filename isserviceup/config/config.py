@@ -45,6 +45,7 @@ from isserviceup.services.pusher import Pusher
 from isserviceup.services.rubygems import RubyGems
 from isserviceup.services.chargify import Chargify
 from isserviceup.services.atlassian import Atlassian
+from isserviceup.services.gocardless import GoCardless
 
 from isserviceup.notifiers.slack import Slack
 
@@ -111,4 +112,5 @@ SERVICES = [
     RubyGems(),
     Chargify(),
     Atlassian(),
+    GoCardless(),
 ]
