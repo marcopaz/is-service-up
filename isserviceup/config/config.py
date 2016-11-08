@@ -15,7 +15,7 @@ from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
 from isserviceup.services.stripe import Stripe
 from isserviceup.services.travis import Travis
-from isserviceup.services.twillio import Twillio
+from isserviceup.services.twillio import Twilio
 from isserviceup.services.sendgrid import SendGrid
 from isserviceup.services.sparkpost import SparkPost
 from isserviceup.services.stormpath import StormPath
@@ -90,7 +90,7 @@ SERVICES = [
     Travis(),
     CircleCI(),
     Azure(),
-    Twillio(),
+    Twilio(),
     SendGrid(),
     SparkPost(),
     StormPath(),

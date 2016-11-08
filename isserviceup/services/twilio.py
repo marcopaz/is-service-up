@@ -1,7 +1,7 @@
 from isserviceup.services.models.statuspage import StatusPagePlugin
 
 
-class Twillio(StatusPagePlugin):
-    name = 'Twillio'
+class Twilio(StatusPagePlugin):
+    name = 'Twilio'
     status_url = 'https://status.twilio.com/'
-    icon_url = '/images/icons/twillio.png'
+    icon_url = '/images/icons/twilio.png'
