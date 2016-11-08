@@ -13,6 +13,7 @@ from isserviceup.services.pingdom import Pingdom
 from isserviceup.services.redislabs import RedisLabs
 from isserviceup.services.sentry import Sentry
 from isserviceup.services.github import GitHub
+from isserviceup.services.stripe import Stripe
 from isserviceup.services.travis import Travis
 from isserviceup.services.twillio import Twillio
 from isserviceup.services.sendgrid import SendGrid
@@ -129,4 +130,5 @@ SERVICES = [
     Shotgun(),
     FTrack(),
     NewRelic(),
+    Stripe(),
 ]
