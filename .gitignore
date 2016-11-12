@@ -3,4 +3,4 @@
 .idea
 .env*
 celerybeat*
-
+static
