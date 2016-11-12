@@ -1,12 +1,22 @@
 version: '2'
 
 services:
+
+  frontend_builder:
+    build: frontend
+    volumes:
+     - './frontend/dist:/frontend/dist'
+    command: npm run build
+
   website:
     build: .
     ports:
      - "8000:8000"
     volumes:
-     - '.:/isserviceup'
+     - './isserviceup:/isserviceup/isserviceup'
+     - './frontend/dist:/isserviceup/static'
+    depends_on:
+     - frontend_builder
     command: gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app --reload
 
   redis:
@@ -19,13 +29,17 @@ services:
     build: .
     command: celery -A isserviceup.celeryapp.app beat
     volumes:
-      - '.:/isserviceup'
+     - './isserviceup:/isserviceup/isserviceup'
+    depends_on:
+     - redis
 
   celery:
     build: .
     command: celery worker -l info -P gevent -c 50 -A isserviceup.celeryapp.app
     volumes:
-      - '.:/isserviceup'
+     - './isserviceup:/isserviceup/isserviceup'
+    depends_on:
+     - redis
 
 volumes:
   redis:

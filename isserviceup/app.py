@@ -1,7 +1,7 @@
 import logging
 import datetime
 
-from flask.ext.cors import CORS
+from flask_cors import CORS
 
 from isserviceup.storage.services import get_status as get_services_status
 from isserviceup.config import config
@@ -11,7 +11,7 @@ import redis
 
 from isserviceup.services.models.service import Status
 
-app = Flask(__name__, static_url_path='', static_folder='static')
+app = Flask(__name__, static_url_path='', static_folder='../static')
 app.config.from_object(config)
 app.debug = config.DEBUG
 CORS(app)

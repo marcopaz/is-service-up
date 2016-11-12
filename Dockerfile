@@ -3,7 +3,7 @@ FROM python:3.5
 RUN useradd --user-group --create-home --shell /bin/false app
 
 ENV INSTALL_PATH /isserviceup
-RUN mkdir -p $INSTALL_PATH && chown app:app /isserviceup
+RUN mkdir -p $INSTALL_PATH && chown app:app $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
 
