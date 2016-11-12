@@ -5,8 +5,8 @@ services:
   frontend_builder:
     build: frontend
     volumes:
-     - './frontend/dist:/frontend/dist'
-    command: npm run build
+     - 'frontend_build:/frontend/dist'
+    command: rm -rf dist/* && npm run build
 
   website:
     build: .
@@ -14,7 +14,7 @@ services:
      - "8000:8000"
     volumes:
      - './isserviceup:/isserviceup/isserviceup'
-     - './frontend/dist:/isserviceup/static'
+     - 'frontend_build:/isserviceup/static'
     depends_on:
      - frontend_builder
     command: gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app --reload
@@ -43,3 +43,4 @@ services:
 
 volumes:
   redis:
+  frontend_build:
