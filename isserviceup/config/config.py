@@ -63,6 +63,8 @@ FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8000/')
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
 STATUS_UPDATE_INTERVAL = config('STATUS_UPDATE_INTERVAL', cast=int, default=30)
 
+SERVE_STATIC_FILES = config('SERVE_STATIC_FILES', cast=bool, default=True)
+
 SENTRY_DSN = config('SENTRY_DSN', default=None)
 
 CELERY_EAGER = config('CELERY_EAGER', cast=bool, default=False)

@@ -1,17 +1,20 @@
 import logging
-
 import traceback
-from flask import Flask
+
+from flask import Flask, jsonify
 from flask_cors import CORS
 from raven.contrib.flask import Sentry
 
-from isserviceup.config import config
-from isserviceup.api import status as status_bp
 from isserviceup.api import auth as auth_bp
+from isserviceup.api import status as status_bp
 from isserviceup.api import user as user_bp
+from isserviceup.config import config
 from isserviceup.helpers import exceptions
+from isserviceup.helpers.exceptions import ApiException
 
-app = Flask(__name__, static_url_path='', static_folder='../frontend/dist')
+static_url_path = '' if config.SERVE_STATIC_FILES else None
+static_folder = '../frontend/dist' if config.SERVE_STATIC_FILES else None
+app = Flask(__name__, static_url_path=static_url_path, static_folder=static_folder)
 app.config.from_object(config)
 app.debug = config.DEBUG
 CORS(app)
@@ -39,7 +42,10 @@ app.register_blueprint(user_bp.mod, url_prefix='/user')
 
 @app.route('/', methods=['GET'])
 def index():
-    return app.send_static_file('index.html')
+    if config.SERVE_STATIC_FILES:
+        return app.send_static_file('index.html')
+    else:
+        raise ApiException('page not found', 404)
 
 
 if __name__ == '__main__':
