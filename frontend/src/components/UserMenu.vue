@@ -1,6 +1,6 @@
 <template>
   <div id="user-menu" class="navigation">
-    <div v-if="!user.authenticated">
+    <div v-if="!user.authenticated" class="hidden-xs">
       <button type="button" class="btn btn-primary" @click="login($event)"><span class="fa fa-github"></span> Login with GitHub</button>
     </div>
     <div role="navigation" class="dropdown menu" v-if="user.authenticated">

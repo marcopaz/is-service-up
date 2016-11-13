@@ -204,12 +204,12 @@ html, body {
 }
 
 .hidden-xxs {
-    display: block;
+    display: block !important;
 }
 
 @media only screen and (max-width : 450px) {
     .hidden-xxs {
-        display: none;
+        display: none !important;
     }
 }
 
