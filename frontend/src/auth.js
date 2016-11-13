@@ -21,7 +21,7 @@ export default {
     this.user.avatar_url = null;
   },
 
-  checkAuth() {
+  restoreAuth() {
     var jwt = localStorage.getItem('auth_token');
     this.user.authenticated = !!jwt;
     if (this.user.authenticated) {

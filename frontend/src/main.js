@@ -9,17 +9,18 @@ Vue.use(VueRouter);
 
 /* eslint-disable no-new */
 
-auth.checkAuth();
+auth.restoreAuth();
 
+// check if page come from server redirect
 var hash = window.location.hash;
 if (hash.startsWith('#/?code=')) {
   let code = hash.substr('#/?code='.length);
   auth.login(code);
-  // remove code from url
+  // remove code from url for safety purposes
   window.location.hash = '#/?login-success';
 }
 
-var checkAuth = (to, from, next) => {
+var authMiddleware = (to, from, next) => {
   if (!auth.user.authenticated) {
     next({ path:'/' });
   } else {
@@ -29,7 +30,7 @@ var checkAuth = (to, from, next) => {
 
 var routes = [
   {path: '/', component: Services },
-  {path: '/settings', component: Settings, beforeEnter: checkAuth, },
+  {path: '/settings', component: Settings, beforeEnter: authMiddleware, },
 ];
 
 export var router = new VueRouter({
