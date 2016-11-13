@@ -7,6 +7,7 @@ from raven.contrib.flask import Sentry
 
 from isserviceup.config import config
 from isserviceup.api import status as status_bp
+from isserviceup.helpers import exceptions
 
 app = Flask(__name__, static_url_path='', static_folder='../frontend/dist')
 app.config.from_object(config)
@@ -16,6 +17,17 @@ CORS(app)
 sentry = None
 if config.SENTRY_DSN:
     sentry = Sentry(app, logging=True, level=logging.ERROR)
+
+
+@app.errorhandler(Exception)
+def handle_generic_exception(error):
+    print('Exception={}'.format(error))
+    traceback.print_exc()
+
+    if sentry:
+        sentry.captureException()
+
+    return exceptions.handle_exception(error)
 
 
 app.register_blueprint(status_bp.mod, url_prefix='/status')
