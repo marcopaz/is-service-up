@@ -1,7 +1,7 @@
 <template>
   <div id="user-menu" class="navigation">
     <div v-if="!user.authenticated">
-      <a href="#" @click="login($event)">Login</a>
+      <button type="button" class="btn btn-primary" @click="login($event)"><span class="fa fa-github"></span> Login with GitHub</button>
     </div>
     <div role="navigation" class="dropdown menu" v-if="user.authenticated">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-menu-dropdown" aria-haspopup="true" aria-expanded="false">
