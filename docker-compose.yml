@@ -2,11 +2,11 @@ version: '2'
 
 services:
 
-  frontend_builder:
-    build: frontend
-    volumes:
-     - './frontend/dist:/frontend/dist'
-    command: npm run build
+#  frontend_builder:
+#    build: frontend
+#    volumes:
+#     - './frontend/dist:/frontend/dist'
+#    command: npm run build
 
   website:
     build: .
@@ -15,7 +15,7 @@ services:
     volumes:
      - '.:/isserviceup'
     depends_on:
-     - frontend_builder
+#     - frontend_builder
      - redis
      - mongo
     command: gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app --reload
