@@ -59,6 +59,7 @@ from isserviceup.services.newrelic import NewRelic
 from isserviceup.notifiers.slack import Slack
 
 DEBUG = config('DEBUG', cast=bool, default=False)
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8000/')
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
 STATUS_UPDATE_INTERVAL = config('STATUS_UPDATE_INTERVAL', cast=int, default=30)
 
@@ -67,6 +68,9 @@ SENTRY_DSN = config('SENTRY_DSN', default=None)
 CELERY_EAGER = config('CELERY_EAGER', cast=bool, default=False)
 CELERY_BROKER = config('CELERY_BROKER', default=REDIS_URL)
 CELERY_BACKEND = config('CELERY_BACKEND', default=REDIS_URL)
+
+GITHUB_CLIENT_ID = config('GITHUB_CLIENT_ID', default=None)
+GITHUB_CLIENT_SECRET = config('GITHUB_CLIENT_SECRET', default=None)
 
 SLACK_WEB_HOOK_URL = config('SLACK_WEB_HOOK_URL', default=None)
 

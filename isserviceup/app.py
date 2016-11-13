@@ -7,6 +7,7 @@ from raven.contrib.flask import Sentry
 
 from isserviceup.config import config
 from isserviceup.api import status as status_bp
+from isserviceup.api import auth as auth_bp
 from isserviceup.helpers import exceptions
 
 app = Flask(__name__, static_url_path='', static_folder='../frontend/dist')
@@ -31,6 +32,7 @@ def handle_generic_exception(error):
 
 
 app.register_blueprint(status_bp.mod, url_prefix='/status')
+app.register_blueprint(auth_bp.mod, url_prefix='/auth')
 
 
 @app.route('/', methods=['GET'])
