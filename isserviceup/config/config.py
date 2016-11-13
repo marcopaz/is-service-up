@@ -8,6 +8,7 @@ def s2l(x):
 DEBUG = config('DEBUG', cast=bool, default=False)
 FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8000/')
 REDIS_URL = config('REDIS_URL', default='redis://redis:devpassword@redis')
+MONGO_URL = config('MONGO_URL', default='mongodb://mongo/isserviceup')
 STATUS_UPDATE_INTERVAL = config('STATUS_UPDATE_INTERVAL', cast=int, default=30)
 
 SERVE_STATIC_FILES = config('SERVE_STATIC_FILES', cast=bool, default=True)

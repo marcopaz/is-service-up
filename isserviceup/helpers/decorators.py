@@ -3,6 +3,7 @@ from six import wraps
 
 from isserviceup.helpers.exceptions import ApiException
 from isserviceup.storage import sessions
+from isserviceup.storage.users import get_user
 
 
 def authenticated(blocking=True):
@@ -14,7 +15,11 @@ def authenticated(blocking=True):
             auth = request.headers.get('Authorization')
             if auth and len(auth) >= 7:
                 sid = auth[7:]  # 'Bearer ' prefix
-                user = sessions.get(sid)
+                session = sessions.get(sid)
+                if session and session.get('user_id'):
+                    user = get_user(session['user_id'])
+                    if user:
+                        user.sid = sid
             if blocking and not user:
                 raise ApiException('unauthorized', status_code=401)
             res = f(user=user, *args, **kwargs)

@@ -10,3 +10,4 @@ celery
 raven
 blinker
 gevent
+mongoengine

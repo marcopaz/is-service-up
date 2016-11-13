@@ -23,6 +23,8 @@ itsdangerous==0.24        # via flask
 Jinja2==2.8               # via flask
 kombu==3.0.37             # via celery
 MarkupSafe==0.23          # via jinja2
+mongoengine==0.10.6
+pymongo==3.3.1            # via mongoengine
 python-decouple==3.0
 pytz==2016.7              # via celery
 raven==5.31.0
