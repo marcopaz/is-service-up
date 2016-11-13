@@ -10,16 +10,6 @@ $.ajaxSetup({
 });
 
 function makeAPIRequest(path, options, callback) {
-
-  if (!callback) {
-    if (options) {
-      callback = options;
-      options = {};
-    } else {
-      callback = function(){};
-    }
-  }
-
   var defaultOptions = {
     url: config.API_HOST + path,
     type: "GET",
@@ -29,11 +19,13 @@ function makeAPIRequest(path, options, callback) {
         xhr.setRequestHeader(k, authHeaders[k]);
       });
     },
+    // data: JSON.stringify({ ... }),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
     success: callback,
   };
 
-  var ajaxOptions = {};
-  $.extend(ajaxOptions, defaultOptions, options);
+  var ajaxOptions = $.extend({}, defaultOptions, options);
   $.ajax(ajaxOptions);
 }
 
@@ -47,9 +39,20 @@ export function getStatus(type, callback) {
 }
 
 export function getUserInfo(callback) {
-  makeAPIRequest('/user', callback);
+  makeAPIRequest('/user', {}, callback);
 }
 
 export function logout(callback) {
-  makeAPIRequest('/user/logout', callback);
+  makeAPIRequest('/user/logout', {}, callback);
+}
+
+export function updateFavoriteStatus(status, service_id, callback) {
+  var options = {
+    type: 'POST',
+    data: JSON.stringify({
+      status: status,
+      service_id: service_id,
+    }),
+  };
+  makeAPIRequest('/user/favorite', options, callback);
 }

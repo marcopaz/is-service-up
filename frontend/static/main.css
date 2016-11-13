@@ -73,34 +73,60 @@ html, body {
 }
 
 .logo-img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .last-update {
-    text-align: right;
-    color: gray;
-    font-size: 0.8em;
+  text-align: right;
+  color: gray;
+  font-size: 0.8em;
 }
 
 .services-container {
-    border-radius: 3px;
-    border: 1px solid #eee;
-    margin-bottom: 20px;
-    cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #eee;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
-.services-section .service-container {
-    padding: 20px;
-    border: 0px solid #eee;
-    border-bottom-width: 1px;
+.service-row {
+  display: flex;
+  align-items: baseline;
+  border: 0px solid #eee;
+  border-bottom-width: 1px;
+}
+
+.service-row.last-element {
+  border-bottom-width: 0px;
+}
+
+.service-star {
+  color: #b1b32b;
+  width: 53px;
+  text-align: center;
+  border-right: 1px solid #eee;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.service-star:hover {
+  background-color: #f3f3f3;
 }
 
 #services .nav-tabs {
   border-bottom: 0;
 }
 
+#services .empty-list {
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+.service-container {
+  padding: 20px;
+  width: 100%;
+}
 .service-container:hover {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
 }
 
 .service-name {

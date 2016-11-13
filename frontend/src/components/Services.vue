@@ -2,18 +2,21 @@
   <div id="services">
     <div class="services-section">
 
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs" v-if="user.authenticated">
         <li role="presentation" v-for="(tab, index) in tabs" :class="[isActive(index) ? 'active' : '']"><a href="#" @click="goToTab($event, index)">{{tab}}</a></li>
       </ul>
 
-      <div class="loading" v-if="!services || services.length == 0">
+      <div class="loading" v-if="!services">
         <img src="/images/loading.gif" alt="loading.." title="loading.." />
         <div>Loading service status..</div>
       </div>
-      <div class="services-container one-column" v-if="services && services.length > 0">
-        <service v-for="service in sortedServices" :service="service" :key="service.name"></service>
+      <div class="empty-list" v-if="services && services.length == 0">
+        No services starred, select your favorite services <a href="#" @click="goToAllTab($event)">here</a>.
       </div>
-      <div class="last-update" v-if="lastUpdate != null">
+      <div class="services-container one-column" v-if="services && services.length > 0">
+        <service v-for="(service,index) in sortedServices" :service="service" :showStar="user.authenticated && isAllTab" :key="service.name" :class="[index == sortedServices.length-1 ? 'last-element' : '']" ></service>
+      </div>
+      <div class="last-update" v-if="services && services.length > 0 && lastUpdate != null">
         Last update: <span class="last-update-seconds">{{lastUpdate}}</span> seconds ago
       </div>
     </div>
@@ -33,6 +36,7 @@
 <script>
 import * as config from '../config';
 import * as api from '../api';
+import auth from '../auth';
 import {spawnNotification} from '../utils/notifications';
 import Service from './Service';
 
@@ -48,7 +52,7 @@ function notifyStatusChange(serviceName, serviceIcon, oldStatus, newStatus) {
 var ALL_TAB_NAME = 'All';
 var FAV_TAB_NAME = 'Favorite'
 
-var TABS = [FAV_TAB_NAME, ALL_TAB_NAME];
+var TABS = [FAV_TAB_NAME, ALL_TAB_NAME ];
 
 export default {
   name: 'services',
@@ -60,12 +64,17 @@ export default {
     return  {
       tabs: TABS,
       activeTab: 0,
-      services: [],
+      services: null,
       lastUpdate: null,
+      user: auth.user,
     };
   },
 
   created(){
+    this.startFetchingProcess();
+  },
+
+  mounted(){
     this.startFetchingProcess();
   },
 
@@ -133,12 +142,17 @@ export default {
     },
 
     isActive(index) {
-        return index == this.activeTab;
+      return index == this.activeTab;
     },
 
     goToTab(event, index) {
       event.preventDefault();
       this.activeTab = index;
+    },
+
+    goToAllTab(event) {
+      event.preventDefault();
+      this.activeTab = TABS.indexOf(ALL_TAB_NAME);
     },
 
   },
@@ -153,6 +167,10 @@ export default {
     activeTabName() {
       return this.tabs[this.activeTab];
     },
+
+    isAllTab() {
+      return this.activeTabName === ALL_TAB_NAME;
+    }
   },
 
   watch: {
