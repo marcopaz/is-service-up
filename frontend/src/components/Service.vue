@@ -1,6 +1,6 @@
 <template>
   <div class="service-row">
-    <div class="service-container border-color" v-on:click="goToStatusPage">
+    <div class="service-container border-color" @click="goToStatusPage()">
       <div class="service-inner-container" :class="'status-' + color">
         <img class="service-icon" :src="service.icon_url" :title="service.name"/>
         <span class="service-name">{{service.name}}</span>

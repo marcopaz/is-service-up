@@ -1,7 +1,45 @@
+html, body {
+  background-color: white;
+}
+
 .container {
     width: 90%;
     max-width: 850px;
     font-size: 1.2em;
+}
+
+#header {
+  margin-top: 3em;
+  margin-bottom: 3em;
+  height: 60px;
+}
+
+#header .row, #header .col-lg-12 {
+  height: 100%;
+}
+
+#header .navigation {
+  float: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100%;
+  padding-bottom: 5px;
+}
+
+#header .menu {
+}
+
+.dropdown-menu {
+  right: 0;
+  left: inherit;
+}
+
+.dropdown-signout {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
 }
 
 @media only screen and (max-width : 768px) {
@@ -31,8 +69,7 @@
 }
 
 .logo {
-    margin-top: 3em;
-    margin-bottom: 3em;
+  float: left;
 }
 
 .logo-img {
@@ -114,11 +151,15 @@
     cursor: pointer;
 }
 
+.legend {
+  margin-top: 20px;
+}
+
 .legend-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 0.8em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
 }
 
 .status-description {

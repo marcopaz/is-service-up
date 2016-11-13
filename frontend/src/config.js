@@ -1,5 +1,7 @@
 export var API_HOST = 'http://localhost:8000';
 export var SERVICES_REFRESH_INTERVAL = 30;
+export var GITHUB_CLIENT_ID = '1b38dfe4a080448f7f7c';
+export var GITHUB_LOGIN_URL = 'https://github.com/login/oauth/authorize?client_id=' + GITHUB_CLIENT_ID;
 
 export var STATUS_DESCRIPTION = {
   ok: 'Operational',

@@ -1,20 +1,33 @@
 <template>
   <div>
-      <div class="loading" v-if="!services || services.length == 0">
-        <img src="/images/loading.gif" alt="loading.." title="loading.." />
-        <div>Loading service status..</div>
+      <div class="services-section">
+          <div class="loading" v-if="!services || services.length == 0">
+            <img src="/images/loading.gif" alt="loading.." title="loading.." />
+            <div>Loading service status..</div>
+          </div>
+          <div class="services-container one-column" id="services" v-if="services && services.length > 0">
+            <service v-for="service in sortedServices" :service="service" :key="service.name"></service>
+          </div>
+          <div class="last-update" v-if="last_update != null">
+            Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
+          </div>
       </div>
-      <div class="services-container one-column" id="services" v-if="services && services.length > 0">
-        <service v-for="service in sortedServices" :service="service" :key="service.name"></service>
+      <div class="legend visible-xxs">
+        <ul class="legend-list">
+          <li class="status-green"><span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span></li>
+          <li class="status-yellow"><span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span></li>
+          <li class="status-orange"><span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span></li>
+          <li class="status-red"><span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span></li>
+          <li class="status-blue"><span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span></li>
+          <li class="status-gray"><span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span></li>
+        </ul>
       </div>
-      <div class="last-update" v-if="last_update != null">
-        Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
-      </div>
-  </div>
+    </div>
 </template>
 
 <script>
 import * as config from '../config';
+import * as api from '../api';
 import {spawnNotification} from '../utils/notifications';
 import Service from './Service';
 
@@ -50,7 +63,7 @@ export default {
 
     fetchServices: function _fetchServices(){
       var self = this;
-      $.get(config.API_HOST + '/status', function(data) {
+      api.getStatus(function(data) {
         var services = data.data.services;
         var prevServicesMap = {};
         $.each(self.services, function(i, service) {
