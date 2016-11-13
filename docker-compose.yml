@@ -13,10 +13,10 @@ services:
     ports:
      - "8000:8000"
     volumes:
-     - './isserviceup:/isserviceup/isserviceup'
-     - './frontend/dist:/isserviceup/static'
+     - '.:/isserviceup'
     depends_on:
      - frontend_builder
+     - redis
     command: gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app --reload
 
   redis:

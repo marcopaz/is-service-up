@@ -11,7 +11,7 @@ import redis
 
 from isserviceup.services.models.service import Status
 
-app = Flask(__name__, static_url_path='', static_folder='../static')
+app = Flask(__name__, static_url_path='', static_folder='../frontend/dist')
 app.config.from_object(config)
 app.debug = config.DEBUG
 CORS(app)
