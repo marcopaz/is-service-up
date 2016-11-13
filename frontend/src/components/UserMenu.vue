@@ -15,9 +15,8 @@
           Signed in as <strong class="css-truncate-target">{{user.username}}</strong>
         </div>
 
-        <li role="separator" class="divider"></li>
-
-        <li><router-link to="/settings">Settings</router-link></li>
+        <!--<li role="separator" class="divider"></li>-->
+        <!--<li><router-link to="/settings">Settings</router-link></li>-->
 
         <li role="separator" class="divider"></li>
         <li><a href="#" @click="logout()">Logout</a></li>
