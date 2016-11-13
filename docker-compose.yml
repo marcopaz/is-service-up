@@ -17,6 +17,7 @@ services:
     depends_on:
      - frontend_builder
      - redis
+     - mongo
     command: gunicorn -c "isserviceup/config/gunicorn.py" isserviceup.app:app --reload
 
   redis:
@@ -24,6 +25,11 @@ services:
     command: redis-server --requirepass devpassword --appendonly yes
     volumes:
      - 'redis:/data'
+
+  mongo:
+    image: 'mongo:3'
+    volumes:
+     - 'mongo:/data/db'
 
   celery_beat:
     build: .
@@ -43,3 +49,4 @@ services:
 
 volumes:
   redis:
+  mongo:
