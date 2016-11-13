@@ -3,7 +3,7 @@
     <div class="services-section">
 
       <ul class="nav nav-tabs" v-if="user.authenticated">
-        <li role="presentation" v-for="(tab, index) in tabs" :class="[isActive(index) ? 'active' : '']"><a href="#" @click="goToTab($event, index)">{{tab}}</a></li>
+        <li role="presentation" v-for="(tab, index) in tabs" :class="[isActive(index) ? 'active' : '']"><a href="#" @click="goToTab(index, $event)">{{tab}}</a></li>
       </ul>
 
       <div class="loading" v-if="!services">
@@ -145,14 +145,19 @@ export default {
       return index == this.activeTab;
     },
 
-    goToTab(event, index) {
-      event.preventDefault();
+    goToTab(index, event) {
+      if (event) {
+        event.preventDefault();
+      }
       this.activeTab = index;
+      this.services = null;
+      this.startFetchingProcess();
     },
 
     goToAllTab(event) {
       event.preventDefault();
-      this.activeTab = TABS.indexOf(ALL_TAB_NAME);
+      var idx = TABS.indexOf(ALL_TAB_NAME);
+      this.goToTab(idx)
     },
 
   },
@@ -175,9 +180,6 @@ export default {
 
   watch: {
 
-    activeTab() {
-      this.startFetchingProcess();
-    },
     'user.authenticated': {
       handler: function(value) {
         this.activeTab = value ? 0 : 1;
