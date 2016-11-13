@@ -16,6 +16,10 @@ def get_user(user):
 
 
 @mod.route('/logout', methods=['GET'])
-@authenticated()
+@authenticated(blocking=False)
 def logout(user):
-    return sessions.destroy(user['sid'])
+    if user:
+        sessions.destroy(user['sid'])
+    return jsonify({
+        'status': 'ok',
+    })

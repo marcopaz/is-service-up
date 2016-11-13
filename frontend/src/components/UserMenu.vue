@@ -28,6 +28,7 @@
 
 <script>
 import auth from '../auth';
+import * as api from '../api';
 import * as config from '../config';
 
 var DEFAULT_AVATAR_URL = 'https://avatars2.githubusercontent.com/u/0?v=3';
@@ -48,6 +49,7 @@ export default{
             return false;
         },
         logout() {
+            api.logout();
             auth.logout();
         },
     },

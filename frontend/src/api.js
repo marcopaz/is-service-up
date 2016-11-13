@@ -31,3 +31,7 @@ export function getStatus(callback) {
 export function getUserInfo(callback) {
   makeAPIRequest('/user', callback);
 }
+
+export function logout(callback) {
+  makeAPIRequest('/user/logout', callback);
+}
