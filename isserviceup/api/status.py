@@ -22,6 +22,7 @@ def status():
             'icon_url': service.icon_url,
             'status_url': service.status_url,
             'status': status.name,
+            'id': service.id,
         }
         data.append(s)
 

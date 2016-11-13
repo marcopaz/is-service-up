@@ -11,6 +11,11 @@ class Status(Enum):
 
 
 class Service(object):
+
+    @property
+    def id(self):
+        return self.__class__.__name__
+
     @property
     def status_url(self):
         raise NotImplemented()
