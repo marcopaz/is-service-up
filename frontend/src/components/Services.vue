@@ -63,7 +63,7 @@ export default {
   data: function() {
     return  {
       tabs: TABS,
-      activeTab: 0,
+      activeTab: 1,
       services: null,
       lastUpdate: null,
       user: auth.user,
@@ -177,6 +177,12 @@ export default {
 
     activeTab() {
       this.startFetchingProcess();
+    },
+    'user.authenticated': {
+      handler: function(value) {
+        this.activeTab = value ? 0 : 1;
+      },
+      immediate: true,
     },
 
   },
