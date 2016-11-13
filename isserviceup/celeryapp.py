@@ -11,6 +11,7 @@ from raven.handlers.logging import SentryHandler
 
 from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
+from isserviceup.services import SERVICES
 from isserviceup.storage.services import set_service_status, set_last_update
 from isserviceup.services.models.service import Status
 
@@ -39,13 +40,13 @@ if config.SENTRY_DSN:
 @app.task(name='update-services-status')
 def update_services_status():
     set_last_update(rclient, time.time())
-    for i in range(len(config.SERVICES)):
-        update_service_status.delay(i)
+    for service_id in SERVICES:
+        update_service_status.delay(service_id)
 
 
 @app.task(name='update-service-status', bind=True, max_retries=MAX_RETRIES)
-def update_service_status(self, idx):
-    service = config.SERVICES[idx]
+def update_service_status(self, service_id):
+    service = SERVICES[service_id]
     logger.info('Updating status for service {}'.format(service.name))
     try:
         status = service.get_status()
