@@ -9,8 +9,18 @@ $.ajaxSetup({
   }
 });
 
-function makeAPIRequest(path, callback) {
-  var options = {
+function makeAPIRequest(path, options, callback) {
+
+  if (!callback) {
+    if (options) {
+      callback = options;
+      options = {};
+    } else {
+      callback = function(){};
+    }
+  }
+
+  var defaultOptions = {
     url: config.API_HOST + path,
     type: "GET",
     beforeSend: function(xhr){
@@ -21,11 +31,19 @@ function makeAPIRequest(path, callback) {
     },
     success: callback,
   };
-  $.ajax(options);
+
+  var ajaxOptions = {};
+  $.extend(ajaxOptions, defaultOptions, options);
+  $.ajax(ajaxOptions);
 }
 
-export function getStatus(callback) {
-  makeAPIRequest('/status', callback);
+export function getStatus(type, callback) {
+  var options = {
+    data: {
+      type: type.toLowerCase(),
+    },
+  };
+  makeAPIRequest('/status', options, callback);
 }
 
 export function getUserInfo(callback) {

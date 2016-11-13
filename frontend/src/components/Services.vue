@@ -1,28 +1,33 @@
 <template>
-  <div>
-      <div class="services-section">
-          <div class="loading" v-if="!services || services.length == 0">
-            <img src="/images/loading.gif" alt="loading.." title="loading.." />
-            <div>Loading service status..</div>
-          </div>
-          <div class="services-container one-column" id="services" v-if="services && services.length > 0">
-            <service v-for="service in sortedServices" :service="service" :key="service.name"></service>
-          </div>
-          <div class="last-update" v-if="last_update != null">
-            Last update: <span class="last-update-seconds">{{last_update}}</span> seconds ago
-          </div>
+  <div id="services">
+    <div class="services-section">
+
+      <ul class="nav nav-tabs">
+        <li role="presentation" v-for="(tab, index) in tabs" :class="[isActive(index) ? 'active' : '']"><a href="#" @click="goToTab($event, index)">{{tab}}</a></li>
+      </ul>
+
+      <div class="loading" v-if="!services || services.length == 0">
+        <img src="/images/loading.gif" alt="loading.." title="loading.." />
+        <div>Loading service status..</div>
       </div>
-      <div class="legend visible-xxs">
-        <ul class="legend-list">
-          <li class="status-green"><span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span></li>
-          <li class="status-yellow"><span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span></li>
-          <li class="status-orange"><span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span></li>
-          <li class="status-red"><span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span></li>
-          <li class="status-blue"><span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span></li>
-          <li class="status-gray"><span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span></li>
-        </ul>
+      <div class="services-container one-column" v-if="services && services.length > 0">
+        <service v-for="service in sortedServices" :service="service" :key="service.name"></service>
+      </div>
+      <div class="last-update" v-if="lastUpdate != null">
+        Last update: <span class="last-update-seconds">{{lastUpdate}}</span> seconds ago
       </div>
     </div>
+    <div class="legend visible-xxs">
+      <ul class="legend-list">
+        <li class="status-green"><span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span></li>
+        <li class="status-yellow"><span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span></li>
+        <li class="status-orange"><span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span></li>
+        <li class="status-red"><span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span></li>
+        <li class="status-blue"><span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span></li>
+        <li class="status-gray"><span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span></li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,6 +45,11 @@ function notifyStatusChange(serviceName, serviceIcon, oldStatus, newStatus) {
   spawnNotification(msg, options);
 }
 
+var ALL_TAB_NAME = 'All';
+var FAV_TAB_NAME = 'Favorite'
+
+var TABS = [FAV_TAB_NAME, ALL_TAB_NAME];
+
 export default {
   name: 'services',
   components: {
@@ -48,22 +58,54 @@ export default {
 
   data: function() {
     return  {
+      tabs: TABS,
+      activeTab: 0,
       services: [],
-      last_update: null,
+      lastUpdate: null,
     };
   },
 
-  created: function _ready(){
-    this.fetchServices();
-    setInterval(this.fetchServices.bind(this), config.SERVICES_REFRESH_INTERVAL * 1000);
-    setInterval(this.increaseLastUpdate.bind(this), 1000);
+  created(){
+    this.startFetchingProcess();
+  },
+
+  beforeDestroy() {
+    this.stopFetchingProcess();
   },
 
   methods: {
 
-    fetchServices: function _fetchServices(){
+    startFetchingProcess() {
+      this.fetchServices();
+      this.startIntervals();
+    },
+
+    stopFetchingProcess() {
+      this.stopIntervals();
+    },
+
+    startIntervals() {
+      if (this._intervals) {
+        this.stopIntervals();
+      }
+      this._intervals = [];
+      this._intervals.push(setInterval(this.fetchServices.bind(this), config.SERVICES_REFRESH_INTERVAL * 1000));
+      this._intervals.push(setInterval(this.increaseLastUpdate.bind(this), 1000));
+    },
+
+    stopIntervals() {
+      if (!this._intervals) {
+        return;
+      }
+      this._intervals.forEach(function(elm) {
+        clearInterval(elm);
+      });
+      this._intervals = null;
+    },
+
+    fetchServices(){
       var self = this;
-      api.getStatus(function(data) {
+      api.getStatus(self.activeTabName, function(data) {
         var services = data.data.services;
         var prevServicesMap = {};
         $.each(self.services, function(i, service) {
@@ -79,25 +121,46 @@ export default {
         });
 
         self.services = services;
-        self.last_update = 0;
+        self.lastUpdate = 0;
       });
     },
 
-    increaseLastUpdate: function() {
-      if (this.last_update === null) {
+    increaseLastUpdate() {
+      if (this.lastUpdate === null) {
         return;
       }
-      this.last_update += 1;
+      this.lastUpdate += 1;
+    },
+
+    isActive(index) {
+        return index == this.activeTab;
+    },
+
+    goToTab(event, index) {
+      event.preventDefault();
+      this.activeTab = index;
     },
 
   },
 
   computed: {
-    sortedServices: function () {
+    sortedServices() {
       var clone = this.services.slice(0);
       clone.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
       return clone;
-    }
-  }
+    },
+
+    activeTabName() {
+      return this.tabs[this.activeTab];
+    },
+  },
+
+  watch: {
+
+    activeTab() {
+      this.startFetchingProcess();
+    },
+
+  },
 }
 </script>

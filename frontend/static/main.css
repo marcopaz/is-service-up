@@ -95,6 +95,10 @@ html, body {
     border-bottom-width: 1px;
 }
 
+#services .nav-tabs {
+  border-bottom: 0;
+}
+
 .service-container:hover {
     background-color: #f3f3f3;
 }
