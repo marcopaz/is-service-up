@@ -17,4 +17,3 @@ class Slack(Notifier):
             )
         }
         r = requests.post(self.web_hook_url, json=payload)
-        print(r.status_code)
