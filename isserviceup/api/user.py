@@ -13,10 +13,7 @@ mod = Blueprint('user', __name__)
 @mod.route('', methods=['GET'])
 @authenticated()
 def get_user(user):
-    return jsonify({
-        'username': user.username,
-        'avatar_url': user.avatar_url,
-    })
+    return jsonify(user.as_dict())
 
 
 @mod.route('/logout', methods=['GET'])
