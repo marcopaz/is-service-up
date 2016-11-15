@@ -1,5 +1,5 @@
 import datetime
-from mongoengine import Document, StringField, DateTimeField
+from mongoengine import Document, StringField, DateTimeField, ValidationError, ListField, URLField
 
 
 class Favorite(Document):
@@ -14,4 +14,7 @@ class Favorite(Document):
     user_id = StringField(required=True)
     service_id = StringField(required=True)
     timestamp = DateTimeField(default=datetime.datetime.now)
+
+    monitored_status = ListField(default=None)
+    slack_webhook = URLField(default=None)
 

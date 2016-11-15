@@ -11,6 +11,9 @@ from raven.handlers.logging import SentryHandler
 
 from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
+from isserviceup.models.favorite import Favorite
+from isserviceup.models.user import User
+from isserviceup.notifiers.slack import Slack
 from isserviceup.services import SERVICES
 from isserviceup.storage.services import set_service_status, set_last_update
 from isserviceup.services.models.service import Status
@@ -44,7 +47,7 @@ def update_services_status():
         update_service_status.delay(service_id)
 
 
-@app.task(name='update-service-status', bind=True, max_retries=MAX_RETRIES)
+@app.task(bind=True, max_retries=MAX_RETRIES)
 def update_service_status(self, service_id):
     service = SERVICES[service_id]
     logger.info('Updating status for service {}'.format(service.name))
@@ -60,19 +63,39 @@ def update_service_status(self, service_id):
     logger.info('Service={} has status={}'.format(service.name, status.name))
     old_status = set_service_status(rclient, service, status)
     if old_status is not None and old_status != status:
-        broadcast_status_change.delay(service.name, old_status.name, status.name)
+        broadcast_status_change.delay(service.id, old_status.name, status.name)
 
 
-@app.task(name='broadcast-status-change')
-def broadcast_status_change(service, old_status, new_status):
+@app.task()
+def broadcast_status_change(service_id, old_status, new_status):
+    service = SERVICES[service_id]
+
+    send_all_slack_notifications.delay(service_id, old_status, new_status)
+
     for i in range(len(config.NOTIFIERS)):
-        notify_status_change.delay(i, service, old_status, new_status)
+        notify_status_change.delay(i, service.name, old_status, new_status)
 
 
-@app.task(name='notify-status-change')
+@app.task()
 def notify_status_change(idx, service, old_status, new_status):
     notifier = config.NOTIFIERS[idx]
     notifier.notify(service, old_status, new_status)
+
+
+@app.task()
+def send_all_slack_notifications(service_id, old_status, new_status):
+    favs = Favorite.objects(service_id=service_id,
+                            slack_webhook__ne=None,
+                            monitored_status__in=[new_status])
+    for fav in favs:
+        send_slack_notification.delay(fav.webhook_url, service_id, old_status, new_status)
+
+
+@app.task()
+def send_slack_notification(webhook_url, service_id, old_status, new_status):
+    service = SERVICES[service_id]
+    s = Slack(webhook_url)
+    s.notify(service.name, old_status, new_status)
 
 
 if __name__ == '__main__':
