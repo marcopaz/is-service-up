@@ -26,7 +26,7 @@ function makeAPIRequest(path, options, callback) {
   };
 
   var ajaxOptions = $.extend({}, defaultOptions, options);
-  $.ajax(ajaxOptions);
+  return $.ajax(ajaxOptions);
 }
 
 export function getStatus(type, callback) {
@@ -35,15 +35,23 @@ export function getStatus(type, callback) {
       type: type.toLowerCase(),
     },
   };
-  makeAPIRequest('/status', options, callback);
+  return makeAPIRequest('/status', options, callback);
 }
 
 export function getUserInfo(callback) {
-  makeAPIRequest('/user', {}, callback);
+  return makeAPIRequest('/user', {}, callback);
+}
+
+export function updateUserInfo(data, callback) {
+  var options = {
+    type: 'POST',
+    data: JSON.stringify(data),
+  };
+  return makeAPIRequest('/user', options, callback);
 }
 
 export function logout(callback) {
-  makeAPIRequest('/user/logout', {}, callback);
+  return makeAPIRequest('/user/logout', {}, callback);
 }
 
 export function updateFavoriteStatus(status, service_id, callback) {
@@ -54,5 +62,5 @@ export function updateFavoriteStatus(status, service_id, callback) {
       service_id: service_id,
     }),
   };
-  makeAPIRequest('/user/favorite', options, callback);
+  return makeAPIRequest('/user/favorite', options, callback);
 }

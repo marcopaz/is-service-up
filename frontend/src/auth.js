@@ -6,6 +6,8 @@ export default {
     authenticated: false,
     username: null,
     avatar_url: null,
+    monitored_status: null,
+    slack_webhook: null,
   },
 
   login(code) {
@@ -41,8 +43,9 @@ export default {
   },
 
   setUserInfo(data) {
-    this.user.username = data.username;
-    this.user.avatar_url = data.avatar_url;
+    $.each(data, x => {
+      this.user[x] = data[x];
+    });
     localStorage.setItem('user', JSON.stringify(data));
   }
 }

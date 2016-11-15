@@ -16,6 +16,17 @@ def get_user(user):
     return jsonify(user.as_dict())
 
 
+@mod.route('', methods=['POST'])
+@authenticated()
+def edit_user(user):
+    data = request.json
+    try:
+        user.edit(data)
+    except ValueError:
+        raise ApiException('bad request', 400)
+    return jsonify(user.as_dict())
+
+
 @mod.route('/logout', methods=['GET'])
 @authenticated(blocking=False)
 def logout(user):

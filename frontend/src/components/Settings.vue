@@ -16,6 +16,17 @@
       <!--</div>-->
     <!--</div>-->
 
+    <div class="alert alert-success fade in" v-if="alert === 'success'">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Setting saved succesfully!</strong>
+    </div>
+
+    <div class="alert alert-danger fade in" v-if="alert === 'fail'">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>An error occurred</strong>
+    </div>
+
+
     <div class="boxed-group clearfix">
       <h3>Slack Notifications</h3>
       <form class="form-horizontal">
@@ -24,17 +35,11 @@
           <label class="col-sm-2 control-label" for="slackWebhook">Webhook URL</label>
 
           <div class="col-sm-10">
-
-            <div class="input-group">
-              <span class="input-group-addon">https://hooks.slack.com/services/</span>
-              <input type="text" class="form-control" id="slackWebhook" aria-describedby="inputGroupSuccess1Status">
-            </div>
-
-            <!--<input class="form-control" type="text" id="slackWebhook" placeholder="Slack Webhook URL">-->
+            <input v-model="user.slack_webhook" class="form-control" type="text" id="slackWebhook" placeholder="https://hooks.slack.com/services/...">
           </div>
         </div>
 
-        <p class="text-center"><button type="submit" class="btn btn-primary" @click="webNotSave($event)">Save</button></p>
+        <p class="text-center"><button type="submit" class="btn btn-primary" @click="save('slack_webhook', $event)">Save</button></p>
       </div>
       </form>
     </div>
@@ -45,69 +50,67 @@
         <p>
           Choose which status change you want to be notified of
         </p>
-        <div class="checkbox">
-          <label class="status-red">
-            <input type="checkbox" value="critical" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span>
-          </label>
-        </div>
-        <div class="checkbox">
-          <label class="status-orange">
-            <input type="checkbox" value="major" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span>
-          </label>
-        </div>
-        <div class="checkbox">
-          <label class="status-yellow">
-            <input type="checkbox" value="minor" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span>
-          </label>
-        </div>
-        <div class="checkbox">
-          <label class="status-green">
-            <input type="checkbox" value="ok" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span>
-          </label>
-        </div>
-        <div class="checkbox">
-          <label class="status-blue">
-            <input type="checkbox" value="maintenance" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span>
-          </label>
-        </div>
-        <div class="checkbox">
-          <label class="status-gray">
-            <input type="checkbox" value="unavailable" v-model="checkedStatus">
-            <span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span>
+
+        <div class="checkbox" v-for='s in status'>
+          <label :class="'status-' + s.color">
+            <input type="checkbox" :value="s.name" v-model="user.monitored_status">
+            <span :class="['icon-indicator', 'fa', s.icon]"></span> <span class="status-description">{{s.human}}</span>
           </label>
         </div>
 
-        <p class="text-center"><button type="submit" class="btn btn-primary">Save</button></p>
+        <p class="text-center"><button type="submit" class="btn btn-primary" @click="save('monitored_status', $event)">Save</button></p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import * as config from '../config';
+import * as api from '../api';
+import auth from '../auth';
 
-var DEFAULT_CHECKED_STATUS = ['ok', 'major', 'critical'];
+var status = config.STATUS_LIST.map((x) => ({
+  name: x,
+  icon: config.STATUS_ICON[x],
+  human: config.STATUS_DESCRIPTION[x],
+  color: config.STATUS_COLOR[x],
+})).reverse();
 
 export default{
   data(){
-    return{
-      checkedStatus: DEFAULT_CHECKED_STATUS,
-    }
+    return {
+      status,
+      user: auth.user,
+      alert: null,
+    };
   },
 
-  watch: {
-    checkedStatus(val) {
-      console.log('checkedStatus=', val);
-    }
-  },
+  //created() {
+  //  api.getUserInfo((data) => auth.setUserInfo(data));
+  //},
 
   methods: {
-    webNotSave() {
 
+    showTemporaryAlert(alert) {
+      this.alert = alert;
+      setTimeout(() => { this.alert = null }, 3000);
     },
+
+    save(field, event) {
+      event.preventDefault();
+      var data = {};
+      data[field] = this.user[field];
+      api.updateUserInfo(data, () => {
+        this.showTemporaryAlert('success');
+      }).fail((x) => {
+        this.showTemporaryAlert('fail');
+      });
+    },
+  },
+
+  computed: {
+    checkedStatus() {
+      return this.user.monitored_status;
+    }
   }
 }
 </script>
