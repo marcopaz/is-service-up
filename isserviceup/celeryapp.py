@@ -2,21 +2,20 @@ import logging
 import time
 
 import raven
-import redis
 from celery import Celery
 from celery.utils.log import get_task_logger
 from raven.conf import setup_logging
 from raven.contrib.celery import register_signal, register_logger_signal
 from raven.handlers.logging import SentryHandler
 
+from isserviceup import managers
 from isserviceup.config import celery as celeryconfig
 from isserviceup.config import config
 from isserviceup.models.favorite import Favorite
-from isserviceup.models.user import User
 from isserviceup.notifiers.slack import Slack
 from isserviceup.services import SERVICES
-from isserviceup.storage.services import set_service_status, set_last_update
 from isserviceup.services.models.service import Status
+from isserviceup.storage.services import set_service_status, set_last_update
 
 MAX_RETRIES = 3
 DELAY_RETRY = 2
@@ -25,7 +24,6 @@ app = Celery('app')
 app.config_from_object(celeryconfig)
 
 logger = get_task_logger(__name__)
-rclient = redis.from_url(config.REDIS_URL, charset="utf-8", decode_responses=True)
 
 if config.SENTRY_DSN:
     client = raven.Client(config.SENTRY_DSN)
@@ -42,7 +40,7 @@ if config.SENTRY_DSN:
 
 @app.task(name='update-services-status')
 def update_services_status():
-    set_last_update(rclient, time.time())
+    set_last_update(managers.rclient, time.time())
     for service_id in SERVICES:
         update_service_status.delay(service_id)
 
@@ -55,13 +53,13 @@ def update_service_status(self, service_id):
         status = service.get_status()
     except Exception as exc:
         if self.request.retries == MAX_RETRIES-1:  # last retry
-            set_service_status(rclient, service, Status.unavailable)
+            set_service_status(managers.rclient, service, Status.unavailable)
             raise
         else:
             return self.retry(exc=exc, countdown=DELAY_RETRY)
 
     logger.info('Service={} has status={}'.format(service.name, status.name))
-    old_status = set_service_status(rclient, service, status)
+    old_status = set_service_status(managers.rclient, service, status)
     if old_status is not None and old_status != status:
         broadcast_status_change.delay(service.id, old_status.name, status.name)
 
