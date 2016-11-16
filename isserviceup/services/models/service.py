@@ -21,6 +21,10 @@ class Service(object):
         raise NotImplemented()
 
     @property
+    def icon_url(self):
+        raise NotImplemented()
+
+    @property
     def name(self):
         raise NotImplemented()
 
