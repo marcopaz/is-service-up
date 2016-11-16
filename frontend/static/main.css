@@ -273,4 +273,10 @@ html, body {
     border-bottom-left-radius: 3px;
 }
 
-
+.note {
+  display: block;
+  margin: 0;
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+}

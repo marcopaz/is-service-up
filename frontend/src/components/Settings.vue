@@ -48,8 +48,13 @@
       <h3>Alert Level</h3>
       <div class="boxed-group-inner">
         <p>
-          Choose which status change you want to be notified of
+          Choose which status change you want to be notified of.
         </p>
+        <span class="note">
+          You'll receive a notification, according to your preferences above,
+          for status changes of a service if both the old and the new status of
+          the service are selected below.
+        </span>
 
         <div class="checkbox" v-for='s in status'>
           <label :class="'status-' + s.color">
