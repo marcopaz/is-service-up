@@ -84,7 +84,7 @@ def notify_status_change(idx, service, old_status, new_status):
 def send_all_slack_notifications(service_id, old_status, new_status):
     favs = Favorite.objects(service_id=service_id,
                             slack_webhook__ne=None,
-                            monitored_status__in=[new_status])
+                            monitored_status__all=[old_status, new_status])
     for fav in favs:
         send_slack_notification.delay(fav.webhook_url, service_id, old_status, new_status)
 
@@ -92,8 +92,7 @@ def send_all_slack_notifications(service_id, old_status, new_status):
 @app.task()
 def send_slack_notification(webhook_url, service_id, old_status, new_status):
     service = SERVICES[service_id]
-    s = Slack(webhook_url)
-    s.notify(service.name, old_status, new_status)
+    Slack(webhook_url).notify(service.name, old_status, new_status)
 
 
 if __name__ == '__main__':
