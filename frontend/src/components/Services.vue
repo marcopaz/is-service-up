@@ -22,12 +22,7 @@
     </div>
     <div class="legend visible-xxs">
       <ul class="legend-list">
-        <li class="status-green"><span class="icon-indicator fa fa-check"></span> <span class="status-description">Operational</span></li>
-        <li class="status-yellow"><span class="icon-indicator fa fa-minus-square"></span> <span class="status-description">Degraded Performance</span></li>
-        <li class="status-orange"><span class="icon-indicator fa fa-exclamation-triangle"></span> <span class="status-description">Partial Outage</span></li>
-        <li class="status-red"><span class="icon-indicator fa fa-times"></span> <span class="status-description">Major Outage</span></li>
-        <li class="status-blue"><span class="icon-indicator fa fa-wrench"></span> <span class="status-description">Maintenance</span></li>
-        <li class="status-gray"><span class="icon-indicator fa fa-question"></span> <span class="status-description">Unavailable Status</span></li>
+        <li :class="'status-' + s.color" v-for="s in status"><span :class="['icon-indicator', 'fa', s.icon]"></span> <span class="status-description">{{s.human}}</span></li>
       </ul>
     </div>
   </div>
@@ -52,7 +47,14 @@ function notifyStatusChange(serviceName, serviceIcon, oldStatus, newStatus) {
 var ALL_TAB_NAME = 'All';
 var FAV_TAB_NAME = 'Favorite'
 
-var TABS = [FAV_TAB_NAME, ALL_TAB_NAME ];
+var TABS = [FAV_TAB_NAME, ALL_TAB_NAME];
+
+var status = config.STATUS_LIST.map((x) => ({
+  name: x,
+  icon: config.STATUS_ICON[x],
+  human: config.STATUS_DESCRIPTION[x],
+  color: config.STATUS_COLOR[x],
+})).reverse();
 
 export default {
   name: 'services',
@@ -67,6 +69,7 @@ export default {
       services: null,
       lastUpdate: null,
       user: auth.user,
+      status,
     };
   },
 

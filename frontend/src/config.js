@@ -14,9 +14,9 @@ export var STATUS_LIST = [
 
 export var STATUS_DESCRIPTION = {
   ok: 'Operational',
-  minor: 'Degraded Performance',
-  major: 'Partial Outage',
-  critical: 'Major Outage',
+  minor: 'Minor Outage',
+  major: 'Major Outage',
+  critical: 'Critical Outage',
   maintenance: 'Maintenance',
   unavailable: 'Status Unavailable',
 };
