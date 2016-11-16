@@ -10,8 +10,11 @@ class Slack(Notifier):
 
     def notify(self, service, old_status, new_status):
         payload = {
-            "text": "{}'s new status is {} (was {})".format(
-                service,
+            "username": "IsServiceUp.com",
+            "icon_url": service.icon_url,
+            "text": "{}'s new status is <{}|{}> (was {})".format(
+                service.name,
+                service.status_url,
                 new_status,
                 old_status,
             )

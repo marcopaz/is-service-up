@@ -66,16 +66,15 @@ def update_service_status(self, service_id):
 
 @app.task()
 def broadcast_status_change(service_id, old_status, new_status):
-    service = SERVICES[service_id]
-
     send_all_slack_notifications.delay(service_id, old_status, new_status)
 
     for i in range(len(config.NOTIFIERS)):
-        notify_status_change.delay(i, service.name, old_status, new_status)
+        notify_status_change.delay(i, service_id, old_status, new_status)
 
 
 @app.task()
-def notify_status_change(idx, service, old_status, new_status):
+def notify_status_change(idx, service_id, old_status, new_status):
+    service = SERVICES[service_id]
     notifier = config.NOTIFIERS[idx]
     notifier.notify(service, old_status, new_status)
 
@@ -94,7 +93,9 @@ def send_all_slack_notifications(service_id, old_status, new_status):
 @app.task()
 def send_slack_notification(webhook_url, service_id, old_status, new_status):
     service = SERVICES[service_id]
-    Slack(webhook_url).notify(service.name, old_status, new_status)
+    old_status_desc = config.STATUS_DESCRIPTION[Status[old_status]]
+    new_status_desc = config.STATUS_DESCRIPTION[Status[new_status]]
+    Slack(webhook_url).notify(service, old_status_desc, new_status_desc)
     # TODO: remove webhook if the request fails X times in a row
 
 

@@ -1,5 +1,7 @@
 from decouple import config
 
+from isserviceup.services.models.service import Status
+
 
 def s2l(x):
     return [y.strip() for y in x.split(',')] if x else None
@@ -31,3 +33,13 @@ NOTIFIERS = [
 # List of services separated by comma, a service is represented by the name of its class
 # if not specified the server will fetch the status of all services inside the services folder
 SERVICES = config('SERVICES', cast=s2l, default=None)
+
+# TODO: unify with frontend config
+STATUS_DESCRIPTION = {
+    Status.ok: 'Operational',
+    Status.minor: 'Minor Outage',
+    Status.major: 'Major Outage',
+    Status.critical: 'Critical Outage',
+    Status.maintenance: 'Maintenance',
+    Status.unavailable: 'Status Unavailable',
+}
