@@ -51,8 +51,9 @@
           Choose which status change you want to be notified of.
         </p>
         <span class="note">
-          You'll receive a notification, according to your preferences above,
-          for status changes of a service if both the old and the new status of
+          You'll be notified for status changes of a service, according
+          to your preferences above,
+          if both the old and the new status of
           the service are selected below.
         </span>
 
