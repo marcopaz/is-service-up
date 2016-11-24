@@ -87,7 +87,7 @@ def send_all_slack_notifications(service_id, old_status, new_status):
     if not favs:
         return
     for fav in favs:
-        send_slack_notification.delay(fav.webhook_url, service_id, old_status, new_status)
+        send_slack_notification.delay(fav.slack_webhook, service_id, old_status, new_status)
 
 
 @app.task()
