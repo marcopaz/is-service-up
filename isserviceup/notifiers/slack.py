@@ -15,7 +15,7 @@ class Slack(Notifier):
         payload = {
             "username": "IsServiceUp.com",
             "icon_url": '{}{}'.format(host_url, service.icon_url),
-            "text": "{}'s new status is \"<{}|{}>\" (was \"{}\")".format(
+            "text": "{}'s new status is <{}|{}> (was {})".format(
                 service.name,
                 service.status_url,
                 new_status,
