@@ -14,12 +14,12 @@ class Vultr(Service):
 		b = BeautifulSoup(r.content, 'html.parser')
 		div = b.find('div', {'class': 'row'})
 		status = div.findAll('i', {'class': 'zmdi'})
-		if all('check-circle' in str(s) for s in status):
+		if all('text-sucess' in str(s) for s in status):
 			return Status.ok
-		elif (any('alert-circle' in str(s) for s in status) 
-			or any('close-circle' in str(s) for s in status)):
+		elif (any('text-warning' in str(s) for s in status) 
+			or any('text-danger' in str(s) for s in status)):
 			return Status.minor
-		elif all('close-cirlce' in str(s) for s in status):
+		elif all('text-danger' in str(s) for s in status):
 			return Status.critical
 		else:
 			raise Exception('unexpected status')
