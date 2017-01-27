@@ -4,8 +4,6 @@ IsServiceUp helps you monitor all the cloud services you rely on in a single web
 
 You can customize it with the services you want to monitor and host it on your own server.
 
-Demo available at [isserviceup.com](http://isserviceup.com)
-
 ![](https://raw.githubusercontent.com/marcopaz/is-service-up/master/Screenshot.png)
 
 Sorry, Compose, bad timing :smile:
