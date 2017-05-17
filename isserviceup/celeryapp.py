@@ -20,6 +20,8 @@ from isserviceup.storage.services import set_service_status, set_last_update
 MAX_RETRIES = 3
 DELAY_RETRY = 2
 
+_notified_on_startup = {}
+
 app = Celery('app')
 app.config_from_object(celeryconfig)
 
@@ -60,8 +62,11 @@ def update_service_status(self, service_id):
 
     logger.info('Service={} has status={}'.format(service.name, status.name))
     old_status = set_service_status(managers.rclient, service, status)
-    if old_status is not None and old_status != status:
-        broadcast_status_change.delay(service.id, old_status.name, status.name)
+    if ((config.NOTIFY_ON_STARTUP and service.id not in _notified_on_startup)
+            or (old_status is not None and old_status != status)):
+        broadcast_status_change.delay(
+            service.id, old_status.name if old_status else "", status.name)
+        _notified_on_startup[service.id] = True
 
 
 @app.task()

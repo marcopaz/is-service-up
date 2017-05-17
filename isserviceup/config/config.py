@@ -1,4 +1,5 @@
 from decouple import config
+from isserviceup.notifiers.cachet import Cachet
 
 
 def s2l(x):
@@ -27,9 +28,19 @@ SLACK_WEB_HOOK_URL = config('SLACK_WEB_HOOK_URL', default=None)
 NOTIFIERS = [
     # Slack(SLACK_WEB_HOOK_URL)
 ]
+# If True, on the first status update of the run, it will notify the status
+# even if they didn't change.
+NOTIFY_ON_STARTUP = config('NOTIFY_ON_STARTUP', default=False, cast=bool)
 
-# List of services separated by comma, a service is represented by the name of its class
-# if not specified the server will fetch the status of all services inside the services folder
+# To use, set CACHET_NOTIFIER=True, and set the values for
+# CACHET_URL, CACHET_TOKEN, CACHET_COMPONENTS.
+CACHET_NOTIFIER = config('CACHET_NOTIFIER', default=False, cast=bool)
+if CACHET_NOTIFIER:
+    NOTIFIERS.append(Cachet())
+
+# List of services separated by comma, a service is represented by the name of
+# its class. If not specified the server will fetch the status of all services
+# inside the services folder.
 SERVICES = config('SERVICES', cast=s2l, default=None)
 
 
