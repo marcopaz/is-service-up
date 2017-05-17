@@ -1,3 +1,6 @@
+import os
+import stat
+import shutil
 from decouple import config
 from isserviceup.notifiers.cachet import Cachet
 
@@ -42,6 +45,36 @@ if CACHET_NOTIFIER:
 # its class. If not specified the server will fetch the status of all services
 # inside the services folder.
 SERVICES = config('SERVICES', cast=s2l, default=None)
+
+# This copies the key from a location set in the PRIVATE_SSH_KEY option to the
+# ~/.ssh directory. For example, you can share a key in the 'shared' directory
+# and then set the option to '/home/app/shared/keyfilename' so services that
+# need to connect through SSH can use it. If you are going to share it, the
+# file needs to have permissions to be read by other users to be able to copy
+# it. Also, remember is a PRIVATE key, so generate a new one, and give it
+# the minimum pemissions needed to check if the service is up and running.
+PRIVATE_SSH_KEY = config('PRIVATE_SSH_KEY', default='')
+
+
+# When you need to use the SSH key, call ensure_private_ssh_key that will
+# return if the key was set and properly copied in the corresponding directory.
+def ensure_private_ssh_key():
+    global PRIVATE_SSH_KEY
+    if PRIVATE_SSH_KEY:
+        key_path = os.path.expanduser('~/.ssh')
+        key_file = os.path.join(key_path, 'id_rsa')
+        try:
+            if not os.path.isdir(key_path):
+                os.mkdir(key_path)
+            if not os.path.isfile(key_file):
+                shutil.copyfile(PRIVATE_SSH_KEY, key_file)
+                os.chmod(key_file, stat.S_IWRITE | stat.S_IREAD)
+        except (IOError, OSError) as error:
+            PRIVATE_SSH_KEY = ''
+            print(error)
+        else:
+            return True
+    return False
 
 
 # TODO: unify with frontend config
