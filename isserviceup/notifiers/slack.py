@@ -26,7 +26,7 @@ class Slack(Notifier):
 
     def notify(self, service, old_status, new_status):
         payload = self._build_payload(service, old_status, new_status)
-        r = requests.post(self.web_hook_url, json=payload)
+        requests.post(self.web_hook_url, json=payload)
 
 
 if __name__ == '__main__':

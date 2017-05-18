@@ -4,3 +4,5 @@
 .env*
 celerybeat*
 static
+shared/*
+!shared/.gitkeep
